@@ -1,5 +1,7 @@
-package com.hackathon.ehealthcareproject.entity;
+package com.hackathon.ehealthcareproject.entity.users;
 
+import com.hackathon.ehealthcareproject.entity.AppointmentEntity;
+import com.hackathon.ehealthcareproject.entity.PrescriptionEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
