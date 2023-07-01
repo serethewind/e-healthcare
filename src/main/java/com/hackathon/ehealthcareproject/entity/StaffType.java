@@ -1,0 +1,13 @@
+package com.hackathon.ehealthcareproject.entity;
+
+public enum StaffType {
+    NURSE,
+    MEDICAL_TECHNOLOGIST,
+    PHARMACIST,
+    RADIOLOGY_TECHNOLOGIST,
+    PHYSICAL_THERAPIST,
+    OCCUPATIONAL_THERAPIST,
+    MEDICAL_RECORDS_STAFF,
+    ADMINISTRATIVE_STAFF,
+    SUPPORT_STAFF
+}
