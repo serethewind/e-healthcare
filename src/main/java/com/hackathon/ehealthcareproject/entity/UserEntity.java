@@ -1,4 +1,4 @@
-package com.hackathon.ehealthcareproject.entity.users;
+package com.hackathon.ehealthcareproject.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

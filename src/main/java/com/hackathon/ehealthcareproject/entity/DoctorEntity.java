@@ -1,4 +1,4 @@
-package com.hackathon.ehealthcareproject.entity.users;
+package com.hackathon.ehealthcareproject.entity;
 
 import com.hackathon.ehealthcareproject.entity.AppointmentEntity;
 import com.hackathon.ehealthcareproject.entity.DepartmentEntity;
