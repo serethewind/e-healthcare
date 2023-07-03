@@ -47,9 +47,9 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll();
-                    authorize.requestMatchers(HttpMethod.GET, "/api/arkticles/v1/users/home").permitAll();
-                    authorize.anyRequest().authenticated();
+                    authorize.requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll()
+//                    .requestMatchers(HttpMethod.GET, "/api/arkticles/v1/users/home").permitAll();
+                   .anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.logout((logout) ->
