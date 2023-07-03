@@ -1,6 +1,6 @@
 package com.hackathon.ehealthcareproject.securityConfig;
 
-import com.serethewind.Arkticles.repository.TokenRepository;
+import com.hackathon.ehealthcareproject.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

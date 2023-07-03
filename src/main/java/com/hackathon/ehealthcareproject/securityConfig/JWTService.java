@@ -1,6 +1,6 @@
 package com.hackathon.ehealthcareproject.securityConfig;
 
-import com.serethewind.Arkticles.utils.SecurityConstants;
+import com.hackathon.ehealthcareproject.utils.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,8 +1,9 @@
 package com.hackathon.ehealthcareproject.securityConfig;
 
-import com.serethewind.Arkticles.entity.TokenEntity;
-import com.serethewind.Arkticles.exceptions.ResourceNotFoundException;
-import com.serethewind.Arkticles.repository.TokenRepository;
+
+import com.hackathon.ehealthcareproject.entity.TokenEntity;
+import com.hackathon.ehealthcareproject.exceptions.ResourceNotFoundException;
+import com.hackathon.ehealthcareproject.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,6 @@ public class LogoutService implements LogoutHandler {
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
             return;
         }
-
         String jwt = authHeader.substring(7);
         TokenEntity token = tokenRepository.findByToken(jwt).orElseThrow(() -> new ResourceNotFoundException("Token not found"));
         if (token != null){
