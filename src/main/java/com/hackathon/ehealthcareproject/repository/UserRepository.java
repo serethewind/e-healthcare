@@ -10,6 +10,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 //    @Query("select u from UserEntity u where u.username = ?1")
     Optional<UserEntity> findUserByUsername(String username);
 
-
-
+    Boolean existsByUsernameOrEmail(String username, String email);
 }
