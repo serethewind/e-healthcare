@@ -48,7 +48,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll()
-//                    .requestMatchers(HttpMethod.GET, "/api/arkticles/v1/users/home").permitAll();
+                    .requestMatchers( "/api/health/v1/users/**").permitAll()
                    .anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);

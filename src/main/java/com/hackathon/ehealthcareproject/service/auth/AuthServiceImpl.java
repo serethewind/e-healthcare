@@ -44,7 +44,6 @@ public class AuthServiceImpl implements AuthServiceInterface {
             RolesEntity roles = rolesRepository.findByName("USER");
             UserEntity user = UserEntity.builder()
                     .firstName(userRegisterRequestDto.getFirstName())
-                    .otherName(userRegisterRequestDto.getOtherName())
                     .lastName(userRegisterRequestDto.getLastName())
                     .username(userRegisterRequestDto.getUsername())
                     .email(userRegisterRequestDto.getEmail())

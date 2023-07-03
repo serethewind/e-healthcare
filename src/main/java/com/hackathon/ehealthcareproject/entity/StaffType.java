@@ -1,4 +1,4 @@
-package com.hackathon.ehealthcareproject.entity.users;
+package com.hackathon.ehealthcareproject.entity;
 
 public enum StaffType {
     NURSE,

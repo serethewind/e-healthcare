@@ -1,7 +1,5 @@
 package com.hackathon.ehealthcareproject.entity;
 
-import com.hackathon.ehealthcareproject.entity.users.PatientEntity;
-import com.hackathon.ehealthcareproject.entity.users.StaffEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

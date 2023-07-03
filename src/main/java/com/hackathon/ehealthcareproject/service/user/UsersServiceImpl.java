@@ -3,6 +3,7 @@ package com.hackathon.ehealthcareproject.service.user;
 
 import com.hackathon.ehealthcareproject.dto.users.UserRegisterRequestDto;
 import com.hackathon.ehealthcareproject.dto.users.UserResponseDto;
+import com.hackathon.ehealthcareproject.dto.users.UserUpdateRequestDto;
 import com.hackathon.ehealthcareproject.entity.UserEntity;
 import com.hackathon.ehealthcareproject.exceptions.BadRequestException;
 import com.hackathon.ehealthcareproject.exceptions.ResourceNotFoundException;
@@ -22,13 +23,6 @@ public class UsersServiceImpl implements UsersServiceInterface {
     private ModelMapper modelMapper;
 
     @Override
-    public UserResponseDto createUser(UserRegisterRequestDto userRegisterRequestDto) {
-        UserEntity user = modelMapper.map(userRegisterRequestDto, UserEntity.class);
-        userRepository.save(user);
-        return modelMapper.map(user, UserResponseDto.class);
-    }
-
-    @Override
     public UserResponseDto viewSingleUser(Long id) {
         UserEntity user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return modelMapper.map(user, UserResponseDto.class);
@@ -41,13 +35,13 @@ public class UsersServiceImpl implements UsersServiceInterface {
     }
 
     @Override
-    public UserResponseDto updateUserInformation(Long id, UserRegisterRequestDto userRegisterRequestDto) {
+    public UserResponseDto updateUserInformation(Long id, UserUpdateRequestDto userUpdateRequestDto) {
         if (!userRepository.existsById(id)){
             throw new ResourceNotFoundException("User not found");
         }
 
         UserEntity foundUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        modelMapper.map(userRegisterRequestDto, foundUser);
+        modelMapper.map(userUpdateRequestDto, foundUser);
         userRepository.save(foundUser);
         return modelMapper.map(foundUser, UserResponseDto.class);
     }
