@@ -21,5 +21,5 @@ public class TokenEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UsersEntity user;
+    private UserEntity user;
 }
