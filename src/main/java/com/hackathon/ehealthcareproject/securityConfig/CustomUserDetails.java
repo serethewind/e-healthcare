@@ -1,6 +1,6 @@
 package com.hackathon.ehealthcareproject.securityConfig;
 
-import com.serethewind.Arkticles.entity.UsersEntity;
+import com.hackathon.ehealthcareproject.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +15,7 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private Set<GrantedAuthority> grantedAuthorities;
 
-    CustomUserDetails(UsersEntity user){
+    CustomUserDetails(UserEntity user){
         this.name = user.getUsername();
         this.password = user.getPassword();
         this.grantedAuthorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
