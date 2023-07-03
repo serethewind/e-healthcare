@@ -47,16 +47,14 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers(HttpMethod.POST, "/api/arkticles/v1/auth/**").permitAll();
+                    authorize.requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll();
                     authorize.requestMatchers(HttpMethod.GET, "/api/arkticles/v1/users/home").permitAll();
-                    authorize.requestMatchers("/api/arkticles/v1/users/**").hasAuthority("ADMIN");
-                    authorize.requestMatchers("/api/arkticles/v1/posts/**").hasAnyAuthority("ADMIN", "USER");
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.logout((logout) ->
                 logout
-                        .logoutUrl("/api/arkticles/v1/auth/logout")
+                        .logoutUrl("/api/health/v1/auth/logout")
                         .addLogoutHandler(logoutService)
                         .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
         );
