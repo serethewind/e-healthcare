@@ -1,6 +1,7 @@
 package com.hackathon.ehealthcareproject.service.auth;
 
 import com.hackathon.ehealthcareproject.dto.AuthResponseDto;
+import com.hackathon.ehealthcareproject.dto.RegisterResponseDto;
 import com.hackathon.ehealthcareproject.dto.users.UserLoginRequestDto;
 import com.hackathon.ehealthcareproject.dto.users.UserRegisterRequestDto;
 import com.hackathon.ehealthcareproject.entity.RolesEntity;
@@ -35,7 +36,7 @@ public class AuthServiceImpl implements AuthServiceInterface {
     private JWTService jwtService;
 
     @Override
-    public String registerUser(UserRegisterRequestDto userRegisterRequestDto) {
+    public RegisterResponseDto registerUser(UserRegisterRequestDto userRegisterRequestDto) {
         //check if username or email exist
         if (userRepository.existsByUsernameOrEmail(userRegisterRequestDto.getUsername(), userRegisterRequestDto.getEmail())) {
             throw new BadRequestException("Username or email already exists. Choose another one.");
@@ -46,13 +47,14 @@ public class AuthServiceImpl implements AuthServiceInterface {
                     .firstName(userRegisterRequestDto.getFirstName())
                     .lastName(userRegisterRequestDto.getLastName())
                     .username(userRegisterRequestDto.getUsername())
+                    .email(userRegisterRequestDto.getEmail())
                     .password(passwordEncoder.encode(userRegisterRequestDto.getPassword()))
                     .roles(Collections.singleton(roles))
                     .build();
 
             userRepository.save(user);
-//            String jwtToken = jwtService.generateToken(user.getUsername());
-            return "User successfully registered";
+            return RegisterResponseDto.builder().response("User successfully registered").build();
+
         }
     }
 

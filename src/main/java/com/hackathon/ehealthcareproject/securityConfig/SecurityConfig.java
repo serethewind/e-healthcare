@@ -40,14 +40,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+
                 .exceptionHandling((exceptionHandling) ->
                         exceptionHandling.authenticationEntryPoint(authEntryPoint))
 
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> {
-                    authorize.requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll()
+                    authorize
+                            .requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll()
                     .requestMatchers( "/api/health/v1/users/**").permitAll()
                    .anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());

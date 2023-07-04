@@ -1,6 +1,7 @@
 package com.hackathon.ehealthcareproject.controller;
 
 import com.hackathon.ehealthcareproject.dto.AuthResponseDto;
+import com.hackathon.ehealthcareproject.dto.RegisterResponseDto;
 import com.hackathon.ehealthcareproject.dto.users.UserLoginRequestDto;
 import com.hackathon.ehealthcareproject.dto.users.UserRegisterRequestDto;
 import com.hackathon.ehealthcareproject.service.auth.AuthServiceImpl;
@@ -20,8 +21,9 @@ public class AuthController {
     private AuthServiceImpl authService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserRegisterRequestDto userRegisterRequestDto){
+    public ResponseEntity<RegisterResponseDto> register(@RequestBody UserRegisterRequestDto userRegisterRequestDto){
         return new ResponseEntity<>(authService.registerUser(userRegisterRequestDto), HttpStatus.CREATED);
+//        return ResponseEntity.ok(authService.registerUser(userRegisterRequestDto));
     }
 
     @PostMapping("/login")
