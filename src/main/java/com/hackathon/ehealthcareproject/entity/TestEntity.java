@@ -23,8 +23,8 @@ public class TestEntity {
     private String testDescription;
     private LocalDate testDate;
     @ManyToOne
-    @JoinColumn(name = "patient_id")
-    private PatientEntity patientEntity;
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
     @ManyToOne
     @JoinColumn(name = "medical_technologist_id", referencedColumnName = "id")
     private StaffEntity medicalTechnologist;
