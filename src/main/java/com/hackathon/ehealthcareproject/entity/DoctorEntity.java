@@ -30,6 +30,7 @@ public class DoctorEntity {
     private String gender;
     private String specialization;
     private String phoneNumber;
+    private String email;
     private boolean isAvailable = true;
     @CreationTimestamp
     private LocalDate dateCreated;
