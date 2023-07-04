@@ -46,7 +46,6 @@ public class AuthServiceImpl implements AuthServiceInterface {
                     .firstName(userRegisterRequestDto.getFirstName())
                     .lastName(userRegisterRequestDto.getLastName())
                     .username(userRegisterRequestDto.getUsername())
-                    .email(userRegisterRequestDto.getEmail())
                     .password(passwordEncoder.encode(userRegisterRequestDto.getPassword()))
                     .roles(Collections.singleton(roles))
                     .build();

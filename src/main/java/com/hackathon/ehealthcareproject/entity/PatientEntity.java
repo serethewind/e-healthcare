@@ -7,7 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -20,9 +23,16 @@ public class PatientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity userId;
+    private String firstName;
+    private String lastName;
+    private String gender;
+    private String specialization;
+    private String phoneNumber;
+    private boolean isAvailable = true;
+    @CreationTimestamp
+    private LocalDate dateCreated;
+    @UpdateTimestamp
+    private LocalDate dateUpdated;
     @OneToMany(mappedBy = "patientEntity", cascade = CascadeType.ALL)
     private List<PrescriptionEntity> prescriptionEntities;
     @OneToMany(mappedBy = "patientEntity", cascade = CascadeType.ALL)
