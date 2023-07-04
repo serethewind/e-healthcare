@@ -32,6 +32,7 @@ public class UserEntity {
     private String address;
     private String nextOfKin;
     private LocalDate dateOfBirth;
+    private boolean isAvailable = true;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

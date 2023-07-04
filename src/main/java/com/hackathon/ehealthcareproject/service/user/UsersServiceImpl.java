@@ -9,8 +9,8 @@ import com.hackathon.ehealthcareproject.exceptions.BadRequestException;
 import com.hackathon.ehealthcareproject.exceptions.ResourceNotFoundException;
 import com.hackathon.ehealthcareproject.repository.UserRepository;
 import lombok.AllArgsConstructor;
-//import org.modelmapper.ModelMapper;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,7 +52,9 @@ public class UsersServiceImpl implements UsersServiceInterface {
             throw new BadRequestException("User not found. Delete option failed");
         }
 
-        userRepository.deleteById(id);
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        userEntity.setAvailable(false);
+        userRepository.save(userEntity);
         return "User with " + id + " successfully deleted.";
     }
 }
