@@ -22,8 +22,8 @@ public class PrescriptionEntity {
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
     private DoctorEntity doctorEntity;
     @ManyToOne
-    @JoinColumn(name = "patient_id", referencedColumnName = "id")
-    private PatientEntity patientEntity;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private UserEntity userEntity;
 
     @ManyToOne
     @JoinColumn(name = "pharmacist_id", referencedColumnName = "id")

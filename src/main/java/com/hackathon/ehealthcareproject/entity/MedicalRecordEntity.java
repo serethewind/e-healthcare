@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.catalina.User;
 
 @Getter
 @Setter
@@ -18,8 +19,8 @@ public class MedicalRecordEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "patient_entity_id", referencedColumnName = "id")
-    private PatientEntity patientEntity;
+    @JoinColumn(name = "user_entity_id", referencedColumnName = "id")
+    private UserEntity userEntity;
     private String medicalHistory;
     private String otherNotes;
 

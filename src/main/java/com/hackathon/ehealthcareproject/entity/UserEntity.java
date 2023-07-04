@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -40,4 +41,8 @@ public class UserEntity {
     private LocalDate dateCreated;
     @UpdateTimestamp
     private LocalDate dateUpdated;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<PrescriptionEntity> prescriptionEntities;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<AppointmentEntity> appointmentEntities;
 }

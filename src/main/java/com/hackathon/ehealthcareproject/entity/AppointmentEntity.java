@@ -20,8 +20,8 @@ public class AppointmentEntity {
     private long id;
     private LocalDate appointmentDate;
     @ManyToOne
-    @JoinColumn(name = "patient_entity_id", referencedColumnName = "id")
-    private PatientEntity patientEntity;
+    @JoinColumn(name = "user_entity_id", referencedColumnName = "id")
+    private UserEntity userEntity;
     @ManyToOne
     @JoinColumn(name = "doctor_entity_id", referencedColumnName = "id")
     private DoctorEntity doctorEntity;
