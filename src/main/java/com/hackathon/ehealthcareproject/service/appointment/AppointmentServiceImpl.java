@@ -34,7 +34,7 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
     }
 
     @Override
-    public AppointmentResponseDto updateAppointment(AppointmentRequestDto appointmentRequestDto) {
+    public AppointmentResponseDto updateAppointment(Long id, AppointmentRequestDto appointmentRequestDto) {
         return null;
     }
 
