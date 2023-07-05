@@ -2,6 +2,7 @@ package com.hackathon.ehealthcareproject.service.doctor;
 
 import com.hackathon.ehealthcareproject.dto.doctor.DoctorRequestDto;
 import com.hackathon.ehealthcareproject.dto.doctor.DoctorResponseDto;
+import com.hackathon.ehealthcareproject.entity.DaysOfWeek;
 import com.hackathon.ehealthcareproject.entity.DoctorEntity;
 import com.hackathon.ehealthcareproject.exceptions.ResourceNotFoundException;
 import com.hackathon.ehealthcareproject.repository.DoctorRepository;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .gender(doctorRequestDto.getGender())
                 .specialization(doctorRequestDto.getSpecialization())
                 .phoneNumber(doctorRequestDto.getPhoneNumber())
+                .availableDays(new ArrayList<>())
                 .build();
 
         doctorRepository.save(createdDoctor);
@@ -96,5 +99,10 @@ public class DoctorServiceImpl implements DoctorService {
         doctorRepository.save(doctorEntity);
         return "Doctor Entity deleted successfully";
 
+    }
+
+    @Override
+    public DoctorResponseDto assignDoctor(String day) {
+        return null;
     }
 }
