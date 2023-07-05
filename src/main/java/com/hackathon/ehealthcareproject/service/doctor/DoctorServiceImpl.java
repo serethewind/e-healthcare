@@ -3,12 +3,16 @@ package com.hackathon.ehealthcareproject.service.doctor;
 import com.hackathon.ehealthcareproject.dto.doctor.DoctorRequestDto;
 import com.hackathon.ehealthcareproject.dto.doctor.DoctorResponseDto;
 import com.hackathon.ehealthcareproject.entity.DoctorEntity;
+import com.hackathon.ehealthcareproject.exceptions.ResourceNotFoundException;
 import com.hackathon.ehealthcareproject.repository.DoctorRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -38,7 +42,20 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorResponseDto updateDoctor(Long id, DoctorRequestDto doctorRequestDto) {
-        return null;
+        DoctorEntity doctorEntity = doctorRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        doctorEntity.setFirstName(doctorRequestDto.getFirstName());
+        doctorEntity.setLastName(doctorRequestDto.getLastName());
+        doctorEntity.setEmail(doctorRequestDto.getEmail());
+        doctorEntity.setGender(doctorRequestDto.getGender());
+        doctorEntity.setSpecialization(doctorRequestDto.getSpecialization());
+        doctorEntity.setPhoneNumber(doctorRequestDto.getPhoneNumber());
+        doctorRepository.save(doctorEntity);
+        return DoctorResponseDto.builder()
+                .firstName(doctorEntity.getFirstName())
+                .lastName(doctorEntity.getLastName())
+                .specialization(doctorEntity.getSpecialization())
+                .gender(doctorEntity.getGender())
+                .build();
     }
 
     @Override
@@ -54,11 +71,30 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public List<DoctorResponseDto> viewAllDoctors() {
-        return null;
+        return doctorRepository.findAll().stream().map(doctorEntity -> DoctorResponseDto.builder()
+                .firstName(doctorEntity.getFirstName())
+                .lastName(doctorEntity.getLastName())
+                .specialization(doctorEntity.getSpecialization())
+                .gender(doctorEntity.getGender())
+                .build()).collect(Collectors.toList());
     }
 
     @Override
     public List<DoctorResponseDto> viewAllAvailableDoctors() {
-        return null;
+        return doctorRepository.findAll().stream().filter(DoctorEntity::isAvailable).map(doctorEntity -> DoctorResponseDto.builder()
+                .firstName(doctorEntity.getFirstName())
+                .lastName(doctorEntity.getLastName())
+                .specialization(doctorEntity.getSpecialization())
+                .gender(doctorEntity.getGender())
+                .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public String deleteDoctor(Long id) {
+        DoctorEntity doctorEntity = doctorRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        doctorEntity.setAvailable(false);
+        doctorRepository.save(doctorEntity);
+        return "Doctor Entity deleted successfully";
+
     }
 }
