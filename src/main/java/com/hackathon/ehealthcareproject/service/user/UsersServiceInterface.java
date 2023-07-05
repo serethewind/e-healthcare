@@ -16,4 +16,6 @@ public interface UsersServiceInterface {
     UserResponseDto updateUserInformation(Long id, UserUpdateRequestDto userUpdateRequestDto);
 
     String deleteUser(Long id);
+
+    List<UserResponseDto> findUserByGender(String gender);
 }

@@ -4,10 +4,7 @@ import com.hackathon.ehealthcareproject.entity.AppointmentEntity;
 import com.hackathon.ehealthcareproject.entity.DepartmentEntity;
 import com.hackathon.ehealthcareproject.entity.PrescriptionEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,6 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "doctor_database")
 public class DoctorEntity {

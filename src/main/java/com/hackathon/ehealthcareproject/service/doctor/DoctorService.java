@@ -8,7 +8,7 @@ import java.util.List;
 public interface DoctorService {
     DoctorResponseDto createDoctor(DoctorRequestDto doctorRequestDto);
 
-    DoctorResponseDto updateDoctor(DoctorRequestDto doctorRequestDto);
+    DoctorResponseDto updateDoctor(Long id, DoctorRequestDto doctorRequestDto);
 
     DoctorResponseDto viewSingleDoctor(Long id);
 
