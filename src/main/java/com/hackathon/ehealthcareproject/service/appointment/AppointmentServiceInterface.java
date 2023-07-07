@@ -20,7 +20,7 @@ public interface AppointmentServiceInterface {
 
     AppointmentResponseDto viewSingleAppointment(Long id);
 
-    void markAppointmentAsFulfilled(Long id);
+    String markAppointmentAsFulfilled(Long id);
 
 
 }

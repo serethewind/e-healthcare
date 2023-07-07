@@ -33,6 +33,11 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentServiceInterface.viewSingleAppointment(id));
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<String> markAppointmentAsFulfilled(@PathVariable("id") Long id){
+        return new ResponseEntity(appointmentServiceInterface.markAppointmentAsFulfilled(id), HttpStatus.OK);
+    }
+
     @GetMapping("user")
     public ResponseEntity<List<AppointmentResponseDto>> fetchAppointmentByUser(@RequestParam("user") String username){
         return ResponseEntity.ok(appointmentServiceInterface.findAppointmentByUser(username));

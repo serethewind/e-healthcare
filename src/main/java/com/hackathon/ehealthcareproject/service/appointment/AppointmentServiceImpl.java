@@ -88,8 +88,10 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
     }
 
     @Override
-    public void markAppointmentAsFulfilled(Long id) {
+    public String markAppointmentAsFulfilled(Long id) {
         AppointmentEntity appointmentEntity = appointmentRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         appointmentEntity.setFulfilled(true);
+        appointmentRepository.save(appointmentEntity);
+        return "Appointment fulfilled";
     }
 }
