@@ -18,6 +18,7 @@ public class AppointmentEntity {
     private long id;
     private LocalDate appointmentDate;
     private String remarks;
+    private boolean isFulfilled = false;
     @ManyToOne
     @JoinColumn(name = "user_entity_id", referencedColumnName = "id")
     private UserEntity userEntity;

@@ -86,4 +86,10 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
                 .response(appointmentEntity.getRemarks())
                 .build()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    @Override
+    public void markAppointmentAsFulfilled(Long id) {
+        AppointmentEntity appointmentEntity = appointmentRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        appointmentEntity.setFulfilled(true);
+    }
 }
