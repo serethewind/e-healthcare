@@ -21,4 +21,6 @@ public interface DoctorService {
     String deleteDoctor(Long id);
 
     DoctorEntity randomDoctorOnSpecificDay(LocalDate localDate);
+
+    DoctorEntity randomizingRandomDoctor(DoctorEntity previousDoctor, LocalDate localDate);
 }

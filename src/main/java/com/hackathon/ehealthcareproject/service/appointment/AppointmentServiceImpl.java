@@ -48,7 +48,8 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
     @Override
     public AppointmentResponseDto updateAppointment(Long id) {
         AppointmentEntity appointmentEntity = appointmentRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        appointmentEntity.setDoctorEntity(doctorService.randomDoctorOnSpecificDay(appointmentEntity.getAppointmentDate()));
+        DoctorEntity doctorEntity = appointmentEntity.getDoctorEntity();
+        appointmentEntity.setDoctorEntity(doctorService.randomizingRandomDoctor(doctorEntity, appointmentEntity.getAppointmentDate()));
         appointmentRepository.save(appointmentEntity);
         return modelMapper.map(appointmentEntity, AppointmentResponseDto.class);
     }
