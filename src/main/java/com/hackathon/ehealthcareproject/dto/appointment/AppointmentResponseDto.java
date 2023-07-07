@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AppointmentResponseDto {
+    private String username;
     private String doctorFirstName;
     private String doctorLastName;
     private String response;

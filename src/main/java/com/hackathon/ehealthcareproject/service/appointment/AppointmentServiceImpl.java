@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -34,14 +35,16 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
         AppointmentEntity appointmentEntity = AppointmentEntity.builder()
                 .appointmentDate(appointmentRequestDto.getLocalDate())
                 .userEntity(userRepository.findUserByUsername(appointmentRequestDto.getUsername()).get())
+                .remarks("Appointment successfully booked")
                 .doctorEntity(doctorService.randomDoctorOnSpecificDay(appointmentRequestDto.getLocalDate()))
                 .build();
 
         DoctorEntity doctorEntity = doctorRepository.findById(appointmentEntity.getDoctorEntity().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return AppointmentResponseDto.builder()
+                .username(appointmentEntity.getUserEntity().getUsername())
                 .doctorFirstName(doctorEntity.getFirstName())
                 .doctorLastName(doctorEntity.getLastName())
-                .response("Appointment successfully booked")
+                .response(appointmentEntity.getRemarks())
                 .build();
     }
 
@@ -56,16 +59,31 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
 
     @Override
     public List<AppointmentResponseDto> viewAllAppointments() {
-        return null;
+       return appointmentRepository.findAll().stream().map(appointmentEntity -> AppointmentResponseDto.builder()
+               .username(appointmentEntity.getUserEntity().getUsername())
+               .doctorFirstName(appointmentEntity.getDoctorEntity().getFirstName())
+               .doctorLastName(appointmentEntity.getDoctorEntity().getLastName())
+               .response(appointmentEntity.getRemarks())
+               .build()).collect(Collectors.toList());
     }
 
     @Override
     public List<AppointmentResponseDto> findAppointmentByUser(String username) {
-        return null;
+        return appointmentRepository.findByUserEntity_Username(username).stream().map(appointmentEntity -> AppointmentResponseDto.builder()
+                .username(appointmentEntity.getUserEntity().getUsername())
+                .doctorFirstName(appointmentEntity.getDoctorEntity().getFirstName())
+                .doctorLastName(appointmentEntity.getDoctorEntity().getLastName())
+                .response(appointmentEntity.getRemarks())
+                .build()).collect(Collectors.toList());
     }
 
     @Override
     public AppointmentResponseDto viewSingleAppointment(Long id) {
-        return null;
+        return appointmentRepository.findById(id).map(appointmentEntity -> AppointmentResponseDto.builder()
+                .username(appointmentEntity.getUserEntity().getUsername())
+                .doctorFirstName(appointmentEntity.getDoctorEntity().getFirstName())
+                .doctorLastName(appointmentEntity.getDoctorEntity().getLastName())
+                .response(appointmentEntity.getRemarks())
+                .build()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }
