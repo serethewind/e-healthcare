@@ -185,9 +185,13 @@ public class DoctorServiceImplementation implements DoctorService{
             doctorEntity.setIsAvailable(true);
         }
 
-        doctorRepository.save(doctorEntity);
+        DoctorEntity active = doctorRepository.save(doctorEntity);
         return DoctorResponse.builder()
-
+                .responseCode(Utils.REACTIVATION_RESPONSE_CODE)
+                .responseMessage(Utils.REACTIVATION_RESPONSE_MESSAGE)
+                .data(Data.builder()
+                        .name(active.getFirstName()+ " " + active.getLastName())
+                        .build())
                 .build();
 
     }
