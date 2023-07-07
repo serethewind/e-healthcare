@@ -15,5 +15,9 @@ public class Utils {
     public static final String NOT_FOUND_RESPONSE_MESSAGE = "Personnel searching for is successfully found";
     public static final String PROFILE_UPDATED_RESPONSE_CODE = "007";
     public static final String PROFILE_UPDATED_RESPONSE_MESSAGE = "Personnel profile updated successfully";
+    public static final String REACTIVATION_RESPONSE_CODE = "008";
+    public static final String REACTIVATION_RESPONSE_MESSAGE = "Successfully reactivated";
+//    public static final String DELETE_RESPONSE_CODE = "009";
+//    public static final String DELETE_RESPONSE_MESSAGE = "Personnel deleted";
 
 }

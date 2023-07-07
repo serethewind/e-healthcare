@@ -7,7 +7,9 @@ import com.hackathon.ehealthcareproject.entity.DoctorEntity;
 import com.hackathon.ehealthcareproject.repository.doctorRepository.DoctorRepository;
 import com.hackathon.ehealthcareproject.utils.doctor.Utils;
 import jakarta.persistence.Id;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,9 +150,49 @@ public class DoctorServiceImplementation implements DoctorService{
                 DoctorEntity deleted = doctorRepository.findById(id).get();
                 deleted.setIsAvailable(false);
                 doctorRepository.save(deleted);
-                System.out.println("Personnel successfully deleted");
             }
+                System.out.println("Personnel successfully deleted");
         }
     }
+
+    @Override
+    public DoctorResponse reactivation(Long id) {
+//        if (doctorRepository.existsByIsAvailable(true)){
+//            DoctorResponse.builder()
+//                    .responseCode(Utils.FOUND_RESPONSE_CODE)
+//                    .responseMessage(Utils.FOUND_RESPONSE_MESSAGE)
+//                    .data(Data.builder()
+//                            .name("Found")
+//                            .build())
+//                    .build();
+//        }
+//        if (doctorRepository.existsByIsAvailable(false)){
+//            DoctorEntity reactivate = doctorRepository.findByIsAvailable(false);
+//            reactivate.setIsAvailable(true);
+//            doctorRepository.save(reactivate);
+//        }
+//        return DoctorResponse.builder()
+//                .responseCode(Utils.REACTIVATION_RESPONSE_CODE)
+//                .responseMessage(Utils.REACTIVATION_RESPONSE_MESSAGE)
+//            .build();
+
+        //find by id
+        //check if this doctor entity is available
+        //make
+
+        DoctorEntity doctorEntity = doctorRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        while (doctorEntity.getIsAvailable().equals(false)) {
+            doctorEntity.setIsAvailable(true);
+        }
+
+        doctorRepository.save(doctorEntity);
+        return DoctorResponse.builder()
+
+                .build();
+
+    }
+
+
+
 
 }

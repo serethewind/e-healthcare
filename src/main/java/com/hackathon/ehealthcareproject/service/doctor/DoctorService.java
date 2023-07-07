@@ -15,4 +15,5 @@ public interface DoctorService {
     List<DoctorResponse> viewAllAvailableDoctors(Boolean isAvailable);
     DoctorResponse updateProfile(DoctorDto doctorDto);
     void deleteProfile(Long id);
+    DoctorResponse reactivation (Long id);
 }
