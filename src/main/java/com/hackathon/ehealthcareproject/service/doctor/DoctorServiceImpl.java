@@ -114,8 +114,15 @@ public class DoctorServiceImpl implements DoctorService {
 //              .gender(doctorEntity.getGender())
 //              .specialization(doctorEntity.getSpecialization())
 //              .build()).toList();
-      doctorEntities.subList(0,1);
+//      doctorEntities.subList(0,1);
       return doctorEntities.iterator().next();
+    }
+
+    public DoctorEntity randomizingRandomDoctor(DoctorEntity previousDoctor, LocalDate localDate){
+        List<DoctorEntity> doctorEntities = doctorRepository.findAll().stream().filter(doctorEntity -> doctorEntity.getAvailableDays().contains(AppointmentLogic.determineDay(localDate.getDayOfWeek().toString()))).collect(Collectors.toList());
+        doctorEntities.stream().filter(doctorEntity -> !doctorEntity.equals(previousDoctor)).collect(Collectors.toList());
+        Collections.shuffle(doctorEntities);
+        return doctorEntities.iterator().next();
     }
 
 }

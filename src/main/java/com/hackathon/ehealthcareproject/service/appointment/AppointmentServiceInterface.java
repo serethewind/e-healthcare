@@ -12,7 +12,7 @@ public interface AppointmentServiceInterface {
 
     AppointmentResponseDto createAppointment(AppointmentRequestDto appointmentRequestDto);
 
-    AppointmentResponseDto updateAppointment(Long id, AppointmentRequestDto appointmentRequestDto);
+    AppointmentResponseDto updateAppointment(Long id);
 
     List<AppointmentResponseDto> viewAllAppointments();
 

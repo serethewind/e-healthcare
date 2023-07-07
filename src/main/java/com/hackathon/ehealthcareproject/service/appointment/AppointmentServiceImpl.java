@@ -11,6 +11,7 @@ import com.hackathon.ehealthcareproject.repository.UserRepository;
 import com.hackathon.ehealthcareproject.service.doctor.DoctorService;
 import com.hackathon.ehealthcareproject.service.user.UsersServiceInterface;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +25,7 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
     private DoctorRepository doctorRepository;
     private AppointmentRepository appointmentRepository;
     private DoctorService doctorService;
+    private ModelMapper modelMapper;
 
 
     @Override
@@ -44,8 +46,11 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
     }
 
     @Override
-    public AppointmentResponseDto updateAppointment(Long id, AppointmentRequestDto appointmentRequestDto) {
-        return null;
+    public AppointmentResponseDto updateAppointment(Long id) {
+        AppointmentEntity appointmentEntity = appointmentRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        appointmentEntity.setDoctorEntity(doctorService.randomDoctorOnSpecificDay(appointmentEntity.getAppointmentDate()));
+        appointmentRepository.save(appointmentEntity);
+        return modelMapper.map(appointmentEntity, AppointmentResponseDto.class);
     }
 
     @Override
