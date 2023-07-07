@@ -2,7 +2,9 @@ package com.hackathon.ehealthcareproject.service.doctor;
 
 import com.hackathon.ehealthcareproject.dto.doctor.DoctorRequestDto;
 import com.hackathon.ehealthcareproject.dto.doctor.DoctorResponseDto;
+import com.hackathon.ehealthcareproject.entity.DoctorEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface DoctorService {
@@ -18,5 +20,5 @@ public interface DoctorService {
 
     String deleteDoctor(Long id);
 
-    DoctorResponseDto assignDoctor(String day);
+    DoctorEntity randomDoctorOnSpecificDay(LocalDate localDate);
 }

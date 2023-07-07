@@ -6,13 +6,16 @@ import com.hackathon.ehealthcareproject.entity.DaysOfWeek;
 import com.hackathon.ehealthcareproject.entity.DoctorEntity;
 import com.hackathon.ehealthcareproject.exceptions.ResourceNotFoundException;
 import com.hackathon.ehealthcareproject.repository.DoctorRepository;
+import com.hackathon.ehealthcareproject.utils.AppointmentLogic;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +34,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .gender(doctorRequestDto.getGender())
                 .specialization(doctorRequestDto.getSpecialization())
                 .phoneNumber(doctorRequestDto.getPhoneNumber())
-                .availableDays(new ArrayList<>())
+                .availableDays(AppointmentLogic.assignDays())
                 .build();
 
         doctorRepository.save(createdDoctor);
@@ -53,6 +56,7 @@ public class DoctorServiceImpl implements DoctorService {
         doctorEntity.setSpecialization(doctorRequestDto.getSpecialization());
         doctorEntity.setPhoneNumber(doctorRequestDto.getPhoneNumber());
         doctorRepository.save(doctorEntity);
+
         return DoctorResponseDto.builder()
                 .firstName(doctorEntity.getFirstName())
                 .lastName(doctorEntity.getLastName())
@@ -101,8 +105,17 @@ public class DoctorServiceImpl implements DoctorService {
 
     }
 
-    @Override
-    public DoctorResponseDto assignDoctor(String day) {
-        return null;
+    public DoctorEntity randomDoctorOnSpecificDay(LocalDate localDate){
+      List<DoctorEntity> doctorEntities = doctorRepository.findAll().stream().filter(doctorEntity -> doctorEntity.getAvailableDays().contains(AppointmentLogic.determineDay(localDate.getDayOfWeek().toString()))).collect(Collectors.toList());
+      Collections.shuffle(doctorEntities);
+//      List<DoctorResponseDto> doctorResponseDtos = doctorEntities.subList(0,1).stream().map(doctorEntity -> DoctorResponseDto.builder()
+//              .firstName(doctorEntity.getFirstName())
+//              .lastName(doctorEntity.getLastName())
+//              .gender(doctorEntity.getGender())
+//              .specialization(doctorEntity.getSpecialization())
+//              .build()).toList();
+      doctorEntities.subList(0,1);
+      return doctorEntities.iterator().next();
     }
+
 }

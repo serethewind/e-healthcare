@@ -10,7 +10,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -31,7 +33,7 @@ public class DoctorEntity {
     private String email;
     private boolean isAvailable = true;
     @Enumerated(EnumType.STRING)
-    private List<DaysOfWeek> availableDays = new ArrayList<>();
+    private Set<DaysOfWeek> availableDays = new HashSet<>();
     @CreationTimestamp
     private LocalDate dateCreated;
     @UpdateTimestamp
