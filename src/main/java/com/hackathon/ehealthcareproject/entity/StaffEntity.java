@@ -2,10 +2,7 @@ package com.hackathon.ehealthcareproject.entity;
 
 import com.hackathon.ehealthcareproject.entity.DepartmentEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,17 +15,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "staff_database")
 public class StaffEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private String gender;
     private String specialization;
     private String phoneNumber;
-    private boolean isAvailable = true;
+    private String email;
+    private String dateOfBirth;
+    private Boolean isAvailable = true;
     @Enumerated(EnumType.STRING)
     private StaffType staffType;
     @CreationTimestamp

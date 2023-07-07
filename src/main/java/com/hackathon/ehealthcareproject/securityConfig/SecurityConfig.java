@@ -50,8 +50,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> {
                     authorize
                             .requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll()
+                            .requestMatchers(HttpMethod.POST, "/api/**").permitAll()
                     .requestMatchers( "/api/health/v1/users/**").permitAll()
-                   .anyRequest().authenticated();
+                            .requestMatchers( "/api/**").permitAll()
+                            .requestMatchers( "/api/AllDoctors**").permitAll()
+                            .requestMatchers( "/api/delete/profile**").permitAll()
+                            .anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         http.logout((logout) ->
