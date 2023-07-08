@@ -47,7 +47,7 @@ public class StaffServiceImplementation implements StaffService{
 
         return StaffResponse.builder()
                 .responseCode(ResponseUtils.REGISTERED_RESPONSE_CODE)
-                .responseMessage(ResponseUtils.EXISTED_RESPONSE_MESSAGE)
+                .responseMessage(ResponseUtils.REGISTERED_RESPONSE_MESSAGE)
                 .data((lombok.Data) Data.builder()
                         .name(staffInfo.getFirstName()+ " " + staffInfo.getLastName())
                         .build())
@@ -119,8 +119,8 @@ public class StaffServiceImplementation implements StaffService{
     public StaffResponse viewSingleStaff(Long id) {
         if (!staffRepository.existsById(id)){
             return StaffResponse.builder()
-                    .responseCode(ResponseUtils.NOT_FOUND_RESPONSE_CODE)
-                    .responseMessage(ResponseUtils.NOT_FOUND_RESPONSE_MESSAGE)
+                    .responseCode(ResponseUtils.NOT_EXISTS_RESPONSE_CODE)
+                    .responseMessage(ResponseUtils.NOT_EXISTS_RESPONSE_MESSAGE)
                     .data(null)
                     .build();
         }
@@ -169,8 +169,8 @@ public class StaffServiceImplementation implements StaffService{
         StaffEntity staffInfo = staffRepository.save(staff);
 
         return StaffResponse.builder()
-                .responseCode(ResponseUtils.REGISTERED_RESPONSE_CODE)
-                .responseMessage(ResponseUtils.EXISTED_RESPONSE_MESSAGE)
+                .responseCode(ResponseUtils.PROFILE_UPDATED_RESPONSE_CODE)
+                .responseMessage(ResponseUtils.PROFILE_UPDATED_RESPONSE_MESSAGE)
                 .data((lombok.Data) Data.builder()
                         .name(staffInfo.getFirstName()+ " " + staffInfo.getLastName())
                         .build())
@@ -204,8 +204,8 @@ public class StaffServiceImplementation implements StaffService{
         }
         StaffEntity active = staffRepository.save(staffEntity);
         return StaffResponse.builder()
-                .responseCode(ResponseUtils.NOT_FOUND_RESPONSE_CODE)
-                .responseMessage(ResponseUtils.NOT_FOUND_RESPONSE_MESSAGE)
+                .responseCode(ResponseUtils.REACTIVATION_RESPONSE_CODE)
+                .responseMessage(ResponseUtils.REACTIVATION_RESPONSE_MESSAGE)
                 .data((lombok.Data) Data.builder()
                         .name(active.getFirstName()+ " " + active.getLastName())
                         .build())
