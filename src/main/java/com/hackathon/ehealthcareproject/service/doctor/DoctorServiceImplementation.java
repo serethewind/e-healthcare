@@ -147,7 +147,7 @@ public class DoctorServiceImplementation implements DoctorService{
         }
         else {
             if (doctorRepository.existsById(id)){
-                DoctorEntity deleted = doctorRepository.findById(id).get();
+                DoctorEntity deleted = doctorRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
                 deleted.setIsAvailable(false);
                 doctorRepository.save(deleted);
             }
@@ -195,8 +195,4 @@ public class DoctorServiceImplementation implements DoctorService{
                 .build();
 
     }
-
-
-
-
 }

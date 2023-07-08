@@ -3,9 +3,9 @@ package com.hackathon.ehealthcareproject.controller.staff;
 import com.hackathon.ehealthcareproject.dto.staff.StaffDto;
 import com.hackathon.ehealthcareproject.dto.staff.StaffResponse;
 import com.hackathon.ehealthcareproject.entity.StaffEntity;
+import com.hackathon.ehealthcareproject.entity.StaffType;
 import com.hackathon.ehealthcareproject.service.staff.StaffService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,27 +17,40 @@ public class StaffController {
     public StaffController(StaffService service) {
         this.service = service;
     }
-
-    StaffResponse createProfile(StaffDto staffDto){
+    @PostMapping("/staff")
+    StaffResponse createProfile(@RequestBody StaffDto staffDto){
         return service.createProfile(staffDto);
     }
+    @GetMapping("/allStaff")
     List<StaffEntity> viewAllStaff(){
         return service.viewAllStaff();
     }
-    List<StaffResponse> viewAllStaffByGender(String gender){
-        return service.viewAllDoctorsByGender(gender);
+    @GetMapping("/{staffByGender}")
+    List<StaffResponse> viewAllStaffByGender(@PathVariable("staffByGender") String gender){
+        return service.viewAllStaffByGender(gender);
     }
-    //    List<DoctorResponse> viewAllStaffBySpecialization();
-    StaffResponse viewSingleStaff(Long id){
+    @GetMapping("/{singleStaff}")
+    StaffResponse viewSingleStaff(@PathVariable("singleStaff") Long id){
         return service.viewSingleStaff(id);
     }
-    List<StaffResponse> viewAllAvailableStaff(Boolean isAvailable){
+    @GetMapping("/{allStaffAvailable}")
+    List<StaffResponse> viewAllAvailableStaff(@PathVariable("allStaffAvailable") Boolean isAvailable){
         return service.viewAllAvailableStaff(isAvailable);
     }
-    StaffResponse updateProfile(StaffDto staffDto){
+    @GetMapping("/staff/specialization")
+    List<StaffResponse> viewAllStaffBySpecialization(@RequestBody StaffType staffType){
+        return service.viewAllStaffBySpecialization(staffType);
+    }
+    @PutMapping("/update/staff")
+    StaffResponse updateProfile(@RequestBody StaffDto staffDto){
         return service.updateProfile(staffDto);
     }
-    void deleteProfile(Boolean isAvailable){
-        service.deleteProfile(isAvailable);
+    @DeleteMapping("/staff/id")
+    void deleteProfile(@RequestBody Long id){
+        service.deleteProfile(id);
+    }
+    @PutMapping("/reactivate/staff")
+    StaffResponse reactivation (@RequestBody Long id){
+        return service.reactivation(id);
     }
 }

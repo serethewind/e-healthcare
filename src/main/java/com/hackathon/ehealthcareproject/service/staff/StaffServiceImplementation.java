@@ -9,7 +9,9 @@ import com.hackathon.ehealthcareproject.entity.StaffType;
 import com.hackathon.ehealthcareproject.repository.staffRepository.StaffRepository;
 import com.hackathon.ehealthcareproject.utils.doctor.Utils;
 import com.hackathon.ehealthcareproject.utils.staff.ResponseUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,9 +60,22 @@ public class StaffServiceImplementation implements StaffService{
     }
 
     @Override
-    public List<StaffResponse> viewAllDoctorsByGender(String gender) {
+    public List<StaffResponse> viewAllStaffByGender(String gender) {
+        List<StaffEntity> staffEntityList = staffRepository.findAll();
+        List<StaffEntity> foundStaffs = staffEntityList.stream().filter((doctor) -> gender.equalsIgnoreCase(doctor.getGender())).toList();
+        return foundStaffs.stream().map((eachStaff) -> StaffResponse.builder()
+                .responseCode(Utils.AVAILABLE_RESPONSE_CODE)
+                .responseMessage(Utils.AVAILABLE_RESPONSE_MESSAGE)
+                .data((lombok.Data) Data.builder()
+                        .name(eachStaff.getFirstName()+ " "+ eachStaff.getLastName())
+                        .build())
+                .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StaffResponse> viewAllStaffBySpecialization(StaffType staffType) {
         List<StaffEntity> staffEntities = staffRepository.findAll();
-        List<StaffEntity> staffEntityList = staffEntities.stream().filter(staffEntity -> gender.equalsIgnoreCase(staffEntity.getGender())).toList();
+        List<StaffEntity> staffEntityList = staffEntities.stream().filter(staffEntity -> staffType.equals(staffEntity.getStaffType())).toList();
         return staffEntityList.stream().map(eachStaff -> StaffResponse.builder()
                 .responseCode(ResponseUtils.AVAILABLE_RESPONSE_CODE)
                 .responseMessage(ResponseUtils.AVAILABLE_RESPONSE_MESSAGE)
@@ -70,18 +85,24 @@ public class StaffServiceImplementation implements StaffService{
                 .build()).collect(Collectors.toList());
     }
 
-    @Override
-    public List<StaffResponse> viewAllStaffByGender(String gender) {
-        List<StaffEntity> staffEntities = staffRepository.findAll();
-        List<StaffEntity> staffEntityList = staffEntities.stream().filter(staffEntity -> gender.equalsIgnoreCase(staffEntity.getGender())).toList();
-        return staffEntityList.stream().map(eachStaff -> StaffResponse.builder()
-                .responseCode(ResponseUtils.AVAILABLE_RESPONSE_CODE)
-                .responseMessage(ResponseUtils.AVAILABLE_RESPONSE_MESSAGE)
-                .data((lombok.Data) Data.builder()
-                        .name(eachStaff.getFirstName()+ " "+ eachStaff.getLastName())
-                        .build())
-                .build()).collect(Collectors.toList());
-    }
+
+//    @Override
+//    public List<StaffResponse> viewAllStaffByGender(String gender) {
+//        List<StaffEntity> staffEntities = staffRepository.findAll();
+//        List<StaffEntity> staffEntityList = staffEntities.stream().filter(staffEntity -> gender.equalsIgnoreCase(staffEntity.getGender())).toList();
+//        return staffEntityList.stream().map(eachStaff -> StaffResponse.builder()
+//                .responseCode(ResponseUtils.AVAILABLE_RESPONSE_CODE)
+//                .responseMessage(ResponseUtils.AVAILABLE_RESPONSE_MESSAGE)
+//                .data((lombok.Data) Data.builder()
+//                        .name(eachStaff.getFirstName()+" "+ eachStaff.getLastName())
+//                        .build())
+//                .build()).collect(Collectors.toList());
+//    }
+
+//    @Override
+//    public List<StaffResponse> viewAllStaffByGender(String gender) {
+//
+//    }
 
 //    @Override
 //    public List<StaffResponse> viewAllStaffBySpecialization(StaffType staffType) {
@@ -157,19 +178,37 @@ public class StaffServiceImplementation implements StaffService{
     }
 
     @Override
-    public void deleteProfile(Boolean isAvailable) {
-        if (!staffRepository.existsByIsAvailable(isAvailable)){
+    public void deleteProfile(Long id) {
+        if (!staffRepository.existsById(id)){
             DoctorResponse.builder()
-                    .responseCode(Utils.NOT_FOUND_RESPONSE_CODE)
-                    .responseMessage(Utils.NOT_FOUND_RESPONSE_MESSAGE)
+                    .responseCode(ResponseUtils.NOT_FOUND_RESPONSE_CODE)
+                    .responseMessage(ResponseUtils.NOT_FOUND_RESPONSE_MESSAGE)
                     .data(null)
                     .build();
         }
         else {
-            if (staffRepository.existsByIsAvailable(isAvailable)){
-                staffRepository.findByIsAvailable(isAvailable).setIsAvailable(false);
-                System.out.println("Personnel successfully deleted");
+            if (staffRepository.existsById(id)){
+                StaffEntity deleted = staffRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                deleted.setIsAvailable(false);
+                staffRepository.save(deleted);
             }
+            System.out.println("Personnel successfully deleted");
         }
+    }
+
+    @Override
+    public StaffResponse reactivation(Long id) {
+        StaffEntity staffEntity = staffRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        while (staffEntity.getIsAvailable().equals(false)) {
+            staffEntity.setIsAvailable(true);
+        }
+        StaffEntity active = staffRepository.save(staffEntity);
+        return StaffResponse.builder()
+                .responseCode(ResponseUtils.NOT_FOUND_RESPONSE_CODE)
+                .responseMessage(ResponseUtils.NOT_FOUND_RESPONSE_MESSAGE)
+                .data((lombok.Data) Data.builder()
+                        .name(active.getFirstName()+ " " + active.getLastName())
+                        .build())
+                .build();
     }
 }

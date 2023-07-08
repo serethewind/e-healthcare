@@ -24,24 +24,28 @@ public class DoctorController {
     public List<DoctorEntity> viewAllDoctors(){
         return doctorService.viewAllDoctors();
     }
-    @GetMapping("/{singleDoctor}")
+    @GetMapping("/{singleDoctors}")
     public DoctorResponse viewSingleDoctor(@PathVariable("singleDoctors") Long id){
         return doctorService.viewSingleDoctor(id);
     }
-    @GetMapping("/{AllDoctors}")
-    public List<DoctorResponse> viewAllAvailableDoctors(@PathVariable("AllDoctors") Boolean isAvailable){
+    @GetMapping("/{allDoctorsAvailable}")
+    public List<DoctorResponse> viewAllAvailableDoctors(@PathVariable("allDoctorsAvailable") Boolean isAvailable){
         return doctorService.viewAllAvailableDoctors(isAvailable);
     }
     @GetMapping("/{DoctorsByGender}")
     public List<DoctorResponse> viewAllDoctorsByGender(@PathVariable("DoctorsByGender") String gender){
         return doctorService.viewAllDoctorsByGender(gender);
     }
-    @PutMapping
+    @PutMapping("/update")
     public DoctorResponse updateProfile(@RequestBody DoctorDto doctorDto){
         return doctorService.updateProfile(doctorDto);
     }
     @DeleteMapping("/{id}")
     public void deleteProfile(@PathVariable("id") Long id){
         doctorService.deleteProfile(id);
+    }
+    @PutMapping("/reactivate/doctors")
+    public DoctorResponse reactivation(@RequestBody Long id){
+        return doctorService.reactivation(id);
     }
 }
