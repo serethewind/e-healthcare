@@ -35,10 +35,12 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
         AppointmentEntity appointmentEntity = AppointmentEntity.builder()
                 .appointmentDate(appointmentRequestDto.getLocalDate())
                 .userEntity(userRepository.findUserByUsername(appointmentRequestDto.getUsername()).get())
+                .comments(appointmentRequestDto.getMessage())
                 .remarks("Appointment successfully booked")
                 .doctorEntity(doctorService.randomDoctorOnSpecificDay(appointmentRequestDto.getLocalDate()))
                 .build();
 
+        appointmentRepository.save(appointmentEntity);
         DoctorEntity doctorEntity = doctorRepository.findById(appointmentEntity.getDoctorEntity().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return AppointmentResponseDto.builder()
                 .username(appointmentEntity.getUserEntity().getUsername())

@@ -17,6 +17,7 @@ public class AppointmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDate appointmentDate;
+    private String comments;
     private String remarks;
     private boolean isFulfilled = false;
     @ManyToOne

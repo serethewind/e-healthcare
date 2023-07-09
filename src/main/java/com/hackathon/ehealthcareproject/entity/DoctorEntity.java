@@ -32,8 +32,8 @@ public class DoctorEntity {
     private String phoneNumber;
     private String email;
     private boolean isAvailable = true;
-    @Enumerated(EnumType.STRING)
-    private Set<DaysOfWeek> availableDays = new HashSet<>();
+//    private List<String> availableDays = new ArrayList<>();
+    private String availableDays;
     @CreationTimestamp
     private LocalDate dateCreated;
     @UpdateTimestamp

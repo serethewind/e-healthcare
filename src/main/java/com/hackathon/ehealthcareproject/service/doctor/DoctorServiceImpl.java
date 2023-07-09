@@ -106,22 +106,19 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     public DoctorEntity randomDoctorOnSpecificDay(LocalDate localDate){
-      List<DoctorEntity> doctorEntities = doctorRepository.findAll().stream().filter(doctorEntity -> doctorEntity.getAvailableDays().contains(AppointmentLogic.determineDay(localDate.getDayOfWeek().toString()))).collect(Collectors.toList());
+
+      List<DoctorEntity> doctorEntities = new ArrayList<>(doctorRepository.findAll().stream()
+              .filter(doctorEntity -> doctorEntity.getAvailableDays()
+                      .contains(localDate.getDayOfWeek().toString())).toList());
       Collections.shuffle(doctorEntities);
-//      List<DoctorResponseDto> doctorResponseDtos = doctorEntities.subList(0,1).stream().map(doctorEntity -> DoctorResponseDto.builder()
-//              .firstName(doctorEntity.getFirstName())
-//              .lastName(doctorEntity.getLastName())
-//              .gender(doctorEntity.getGender())
-//              .specialization(doctorEntity.getSpecialization())
-//              .build()).toList();
-//      doctorEntities.subList(0,1);
       return doctorEntities.iterator().next();
     }
 
     public DoctorEntity randomizingRandomDoctor(DoctorEntity previousDoctor, LocalDate localDate){
-        List<DoctorEntity> doctorEntities = doctorRepository.findAll().stream().filter(doctorEntity -> doctorEntity.getAvailableDays().contains(AppointmentLogic.determineDay(localDate.getDayOfWeek().toString()))).collect(Collectors.toList());
-        doctorEntities.stream().filter(doctorEntity -> !doctorEntity.equals(previousDoctor)).collect(Collectors.toList());
-        Collections.shuffle(doctorEntities);
+
+        List<DoctorEntity> doctorEntities = doctorRepository.findAll().stream().filter(doctorEntity -> doctorEntity.getAvailableDays().contains(localDate.getDayOfWeek().toString())).toList();
+        List<DoctorEntity> newDoctorEntities = new ArrayList<>(doctorEntities.stream().filter(doctorEntity -> !doctorEntity.equals(previousDoctor)).toList());
+        Collections.shuffle(newDoctorEntities);
         return doctorEntities.iterator().next();
     }
 

@@ -33,7 +33,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentServiceInterface.viewSingleAppointment(id));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{id}/completed")
     public ResponseEntity<String> markAppointmentAsFulfilled(@PathVariable("id") Long id){
         return new ResponseEntity(appointmentServiceInterface.markAppointmentAsFulfilled(id), HttpStatus.OK);
     }
