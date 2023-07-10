@@ -21,7 +21,7 @@ public class ProductEntity {
     private String description;
     private Integer price;
     private Integer quantity;
-    private Boolean isAvailable = true;
+    private Boolean isAvailable;
     private String imageUris;
     @CreationTimestamp
     private LocalDate dateCreated;

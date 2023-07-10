@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity newProduct = ProductEntity.builder()
                 .productName(productRequestDto.getProductName())
                 .price(productRequestDto.getPrice())
-                .isAvailable(productRequestDto.getIsAvailable())
+                .isAvailable(true)
                 .imageUris(productRequestDto.getImageUris())
                 .description(productRequestDto.getDescription())
                 .quantity(productRequestDto.getQuantity())
@@ -69,7 +69,6 @@ public class ProductServiceImpl implements ProductService {
 
         productEntity.setProductName(productRequestDto.getProductName());
         productEntity.setPrice(productRequestDto.getPrice());
-        productEntity.setIsAvailable(productRequestDto.getIsAvailable());
         productEntity.setImageUris(productRequestDto.getImageUris());
         productEntity.setDescription(productRequestDto.getDescription());
         productEntity.setQuantity(productRequestDto.getQuantity());

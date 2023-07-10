@@ -14,6 +14,5 @@ public class ProductRequestDto {
     private String description;
     private Integer price;
     private Integer quantity;
-    private Boolean isAvailable = true;
     private String imageUris;
 }

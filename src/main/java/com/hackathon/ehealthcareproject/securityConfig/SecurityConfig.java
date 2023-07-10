@@ -53,6 +53,7 @@ public class SecurityConfig {
                             .requestMatchers("/swagger-ui/**").permitAll()
                             .requestMatchers("api/v1/health/doctor/**").permitAll()
                             .requestMatchers( "/api/health/v1/users/**").permitAll()
+                            .requestMatchers("/api/health/v1/products/**").permitAll()
                             .requestMatchers(HttpMethod.POST, "/api/health/v1/appointment/").hasAuthority("USER")
                    .anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
