@@ -64,9 +64,13 @@ public class AuthServiceImpl implements AuthServiceInterface {
         //get context from security context holder and set the authentication object with the authentication object gotten from the authentication manager.
         //return string login successful
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequestDto.getUsername(), userLoginRequestDto.getPassword()));
+
+
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtService.generateToken(authentication.getName());
         UserEntity user = userRepository.findUserByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("user not found"));
+
         revokeValidTokens(user);
         TokenEntity tokenEntity = TokenEntity.builder()
                 .user(user)
@@ -77,9 +81,8 @@ public class AuthServiceImpl implements AuthServiceInterface {
                 .build();
         tokenRepository.save(tokenEntity);
 
-        return new AuthResponseDto(token);
+        return AuthResponseDto.builder().token(token).userId(user.getId()).username(user.getUsername()).build();
     }
-
 
     private void revokeValidTokens(UserEntity users) {
         List<TokenEntity> tokenEntityList = tokenRepository.findAllValidTokensByUser(users.getId());

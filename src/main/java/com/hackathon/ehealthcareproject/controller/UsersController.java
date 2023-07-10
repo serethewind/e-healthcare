@@ -27,8 +27,8 @@ public class UsersController {
         return "Welcome to the homepage. for login and register route, click the button below";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDto> getSingleUser(@PathVariable("id") Long userId){
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponseDto> getSingleUser(@PathVariable("userId") Long userId){
         return ResponseEntity.ok(usersService.viewSingleUser(userId));
     }
 

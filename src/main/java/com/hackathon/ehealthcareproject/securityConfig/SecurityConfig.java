@@ -51,7 +51,7 @@ public class SecurityConfig {
                     authorize
                             .requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll()
                             .requestMatchers("api/v1/health/doctor").permitAll()
-                    .requestMatchers( "/api/health/v1/users/**").permitAll()
+                            .requestMatchers( "/api/health/v1/users/**").permitAll()
                             .requestMatchers(HttpMethod.POST, "/api/health/v1/appointment/").hasAuthority("USER")
                    .anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());

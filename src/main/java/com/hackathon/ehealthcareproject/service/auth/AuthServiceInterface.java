@@ -11,4 +11,5 @@ public interface AuthServiceInterface {
     RegisterResponseDto registerUser(UserRegisterRequestDto userRegisterRequestDto);
 
     AuthResponseDto loginUser(UserLoginRequestDto userLoginRequestDto);
+
 }
