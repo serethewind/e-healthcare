@@ -31,6 +31,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .firstName(doctorRequestDto.getFirstName())
                 .lastName(doctorRequestDto.getLastName())
                 .email(doctorRequestDto.getEmail())
+                .about(doctorRequestDto.getAbout())
                 .gender(doctorRequestDto.getGender())
                 .specialization(doctorRequestDto.getSpecialization())
                 .phoneNumber(doctorRequestDto.getPhoneNumber())
@@ -41,6 +42,7 @@ public class DoctorServiceImpl implements DoctorService {
         return DoctorResponseDto.builder()
                 .firstName(createdDoctor.getFirstName())
                 .lastName(createdDoctor.getLastName())
+                .about(createdDoctor.getAbout())
                 .gender(createdDoctor.getGender())
                 .specialization(createdDoctor.getSpecialization())
                 .build();
@@ -51,6 +53,7 @@ public class DoctorServiceImpl implements DoctorService {
         DoctorEntity doctorEntity = doctorRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         doctorEntity.setFirstName(doctorRequestDto.getFirstName());
         doctorEntity.setLastName(doctorRequestDto.getLastName());
+        doctorEntity.setAbout(doctorRequestDto.getAbout());
         doctorEntity.setEmail(doctorRequestDto.getEmail());
         doctorEntity.setGender(doctorRequestDto.getGender());
         doctorEntity.setSpecialization(doctorRequestDto.getSpecialization());
@@ -60,6 +63,7 @@ public class DoctorServiceImpl implements DoctorService {
         return DoctorResponseDto.builder()
                 .firstName(doctorEntity.getFirstName())
                 .lastName(doctorEntity.getLastName())
+                .about(doctorEntity.getAbout())
                 .specialization(doctorEntity.getSpecialization())
                 .gender(doctorEntity.getGender())
                 .build();
@@ -71,6 +75,7 @@ public class DoctorServiceImpl implements DoctorService {
         return DoctorResponseDto.builder()
                 .firstName(foundDoctor.getFirstName())
                 .lastName(foundDoctor.getLastName())
+                .about(foundDoctor.getAbout())
                 .gender(foundDoctor.getGender())
                 .specialization(foundDoctor.getSpecialization())
                 .build();
@@ -81,6 +86,7 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorRepository.findAll().stream().map(doctorEntity -> DoctorResponseDto.builder()
                 .firstName(doctorEntity.getFirstName())
                 .lastName(doctorEntity.getLastName())
+                .about(doctorEntity.getAbout())
                 .specialization(doctorEntity.getSpecialization())
                 .gender(doctorEntity.getGender())
                 .build()).collect(Collectors.toList());
@@ -91,6 +97,7 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorRepository.findAll().stream().filter(DoctorEntity::isAvailable).map(doctorEntity -> DoctorResponseDto.builder()
                 .firstName(doctorEntity.getFirstName())
                 .lastName(doctorEntity.getLastName())
+                .about(doctorEntity.getAbout())
                 .specialization(doctorEntity.getSpecialization())
                 .gender(doctorEntity.getGender())
                 .build()).collect(Collectors.toList());

@@ -13,6 +13,7 @@ public class DoctorResponseDto {
     private long id;
     private String firstName;
     private String lastName;
+    private String about;
     private String gender;
     private String specialization;
 }

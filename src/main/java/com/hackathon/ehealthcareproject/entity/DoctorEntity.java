@@ -31,6 +31,7 @@ public class DoctorEntity {
     private String specialization;
     private String phoneNumber;
     private String email;
+    private String about;
     private boolean isAvailable = true;
 //    private List<String> availableDays = new ArrayList<>();
     private String availableDays;
