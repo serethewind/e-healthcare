@@ -2,6 +2,7 @@ package com.hackathon.ehealthcareproject.service.auth;
 
 import com.hackathon.ehealthcareproject.dto.AuthResponseDto;
 import com.hackathon.ehealthcareproject.dto.RegisterResponseDto;
+import com.hackathon.ehealthcareproject.dto.email.EmailDetails;
 import com.hackathon.ehealthcareproject.dto.users.UserLoginRequestDto;
 import com.hackathon.ehealthcareproject.dto.users.UserRegisterRequestDto;
 import com.hackathon.ehealthcareproject.entity.RolesEntity;
@@ -13,6 +14,7 @@ import com.hackathon.ehealthcareproject.repository.RolesRepository;
 import com.hackathon.ehealthcareproject.repository.TokenRepository;
 import com.hackathon.ehealthcareproject.repository.UserRepository;
 import com.hackathon.ehealthcareproject.securityConfig.JWTService;
+import com.hackathon.ehealthcareproject.service.emails.EmailServiceInterface;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,6 +36,7 @@ public class AuthServiceImpl implements AuthServiceInterface {
     private PasswordEncoder passwordEncoder;
     private TokenRepository tokenRepository;
     private JWTService jwtService;
+    private EmailServiceInterface emailServiceInterface;
 
     @Override
     public RegisterResponseDto registerUser(UserRegisterRequestDto userRegisterRequestDto) {
@@ -53,6 +56,19 @@ public class AuthServiceImpl implements AuthServiceInterface {
                     .build();
 
             userRepository.save(user);
+
+            EmailDetails emailDetails = EmailDetails.builder()
+                    .recipient(user.getEmail())
+                    .subject("Welcome to SkinLikeMilk")
+                    .messageBody("Hi " + user.getUsername() + ", Thank you for choosing SkinLikeMilk. We can’t wait to help you take charge of your health. So, let’s get started.\n" +
+                            "\n" +
+                            "             One app for total health\n" +
+                            "             SkinLikeMilk is packed with healthy features, waiting to support you and your health. We are so glad to have you here.  ")
+                    .build();
+
+            emailServiceInterface.sendSimpleMessage(emailDetails);
+
+
             return RegisterResponseDto.builder().response("User successfully registered").build();
 
         }
@@ -64,7 +80,6 @@ public class AuthServiceImpl implements AuthServiceInterface {
         //get context from security context holder and set the authentication object with the authentication object gotten from the authentication manager.
         //return string login successful
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequestDto.getUsername(), userLoginRequestDto.getPassword()));
-
 
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
