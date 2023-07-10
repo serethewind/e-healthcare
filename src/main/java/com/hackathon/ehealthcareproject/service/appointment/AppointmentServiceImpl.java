@@ -3,12 +3,15 @@ package com.hackathon.ehealthcareproject.service.appointment;
 import com.hackathon.ehealthcareproject.dto.appointment.AppointmentRequestDto;
 import com.hackathon.ehealthcareproject.dto.appointment.AppointmentResponseDto;
 import com.hackathon.ehealthcareproject.dto.doctor.DoctorResponseDto;
+import com.hackathon.ehealthcareproject.dto.email.EmailDetails;
 import com.hackathon.ehealthcareproject.entity.AppointmentEntity;
 import com.hackathon.ehealthcareproject.entity.DoctorEntity;
+import com.hackathon.ehealthcareproject.entity.UserEntity;
 import com.hackathon.ehealthcareproject.repository.AppointmentRepository;
 import com.hackathon.ehealthcareproject.repository.DoctorRepository;
 import com.hackathon.ehealthcareproject.repository.UserRepository;
 import com.hackathon.ehealthcareproject.service.doctor.DoctorService;
+import com.hackathon.ehealthcareproject.service.emails.EmailServiceInterface;
 import com.hackathon.ehealthcareproject.service.user.UsersServiceInterface;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -27,14 +30,17 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
     private AppointmentRepository appointmentRepository;
     private DoctorService doctorService;
     private ModelMapper modelMapper;
+    private EmailServiceInterface emailServiceInterface;
 
 
     @Override
     public AppointmentResponseDto createAppointment(AppointmentRequestDto appointmentRequestDto) {
 
+        UserEntity user = userRepository.findUserByUsername(appointmentRequestDto.getUsername()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         AppointmentEntity appointmentEntity = AppointmentEntity.builder()
                 .appointmentDate(appointmentRequestDto.getLocalDate())
-                .userEntity(userRepository.findUserByUsername(appointmentRequestDto.getUsername()).get())
+                .userEntity(user)
                 .comments(appointmentRequestDto.getMessage())
                 .remarks("Appointment successfully booked")
                 .doctorEntity(doctorService.randomDoctorOnSpecificDay(appointmentRequestDto.getLocalDate()))
@@ -42,6 +48,20 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
 
         appointmentRepository.save(appointmentEntity);
         DoctorEntity doctorEntity = doctorRepository.findById(appointmentEntity.getDoctorEntity().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        EmailDetails emailDetails = EmailDetails.builder()
+                .recipient(user.getEmail())
+                .subject("Appointment Booked Successfully")
+                .messageBody("Hi " + user.getUsername() + ", Our doctors and specialists are here to care for you 24/7.\n" +
+                        "\n" +
+                        "           Our amiable  Dr. " + doctorEntity.getFirstName() + " " + doctorEntity.getLastName() + " will be at your service on your preferred date " + appointmentRequestDto.getLocalDate() + "\n" +
+                        "           SkinLikeMilk is packed with healthy features, waiting to support you and your health. We are so glad to have you here.  ")
+                .build();
+
+        emailServiceInterface.sendSimpleMessage(emailDetails);
+
+
+
         return AppointmentResponseDto.builder()
                 .username(appointmentEntity.getUserEntity().getUsername())
                 .doctorFirstName(doctorEntity.getFirstName())

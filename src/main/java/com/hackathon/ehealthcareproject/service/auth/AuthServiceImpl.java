@@ -56,7 +56,7 @@ public class AuthServiceImpl implements AuthServiceInterface {
                     .build();
 
             userRepository.save(user);
-
+            //send email upon registration
             EmailDetails emailDetails = EmailDetails.builder()
                     .recipient(user.getEmail())
                     .subject("Welcome to SkinLikeMilk")
