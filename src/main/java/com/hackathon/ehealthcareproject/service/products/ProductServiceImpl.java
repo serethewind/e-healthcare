@@ -32,6 +32,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(newProduct);
 
         return ProductResponseDto.builder()
+                .productId(newProduct.getId())
                 .productName(newProduct.getProductName())
                 .description(newProduct.getDescription())
                 .price(newProduct.getPrice())
@@ -43,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductResponseDto> viewAllProducts() {
         return productRepository.findAll().stream().map(productEntity -> ProductResponseDto.builder()
+                .productId(productEntity.getId())
                 .productName(productEntity.getProductName())
                 .description(productEntity.getDescription())
                 .price(productEntity.getPrice())
@@ -55,6 +57,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponseDto viewSingleProduct(Long id) {
         ProductEntity productEntity = productRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return ProductResponseDto.builder()
+                .productId(productEntity.getId())
                 .productName(productEntity.getProductName())
                 .description(productEntity.getDescription())
                 .price(productEntity.getPrice())
@@ -76,6 +79,7 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(productEntity);
         return ProductResponseDto.builder()
+                .productId(productEntity.getId())
                 .productName(productEntity.getProductName())
                 .description(productEntity.getDescription())
                 .price(productEntity.getPrice())
