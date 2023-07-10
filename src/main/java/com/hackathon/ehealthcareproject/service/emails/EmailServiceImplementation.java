@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 
 import java.io.File;
-
-
-
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.MailException;
@@ -17,17 +14,22 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import java.lang.String;
 
 
 import java.io.File;
 
 @Service
-@AllArgsConstructor
-
 public class EmailServiceImplementation implements EmailServiceInterface{
 
     private JavaMailSender javaMailSender;
     private ModelMapper modelMapper;
+
+
+    public EmailServiceImplementation(JavaMailSender javaMailSender, ModelMapper modelMapper) {
+        this.javaMailSender = javaMailSender;
+        this.modelMapper = modelMapper;
+    }
 
     @Value("${spring.mail.username}")
     private String mailSender;
