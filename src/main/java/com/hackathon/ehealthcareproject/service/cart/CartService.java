@@ -1,10 +1,12 @@
 package com.hackathon.ehealthcareproject.service.cart;
 
+import com.hackathon.ehealthcareproject.dto.cart.CartRequestDto;
+
 public interface CartService {
 
 
 
-    void addCartItemToCart(Long userId, Long productId);
-    void removeCartItemFromCart(Long userId, Long productId);
+    void addCartItemToCart(CartRequestDto cartRequestDto);
+    void removeCartItemFromCart(CartRequestDto cartRequestDto);
     void clearAllItemsFromCart(Long userId);
 }

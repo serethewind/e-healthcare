@@ -27,4 +27,8 @@ public class ProductEntity {
     private LocalDate dateCreated;
     @UpdateTimestamp
     private LocalDate dateUpdated;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 }

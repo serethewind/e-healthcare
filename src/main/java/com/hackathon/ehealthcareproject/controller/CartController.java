@@ -1,24 +1,27 @@
 package com.hackathon.ehealthcareproject.controller;
 
+import com.hackathon.ehealthcareproject.dto.cart.CartRequestDto;
 import com.hackathon.ehealthcareproject.service.cart.CartService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/health/v1/carts")
+@AllArgsConstructor
 public class CartController {
 
     private CartService cartService;
 
-    @PutMapping("{userId}/{productId}")
-    public ResponseEntity<String> addItemToCart(@PathVariable("userId") Long userId, @PathVariable("productId") Long productId){
-        cartService.addCartItemToCart(userId, productId);
+    @PostMapping("/addToCart")
+    public ResponseEntity<String> addItemToCart(@RequestBody CartRequestDto cartRequestDto){
+        cartService.addCartItemToCart(cartRequestDto);
         return ResponseEntity.ok("Item added to cart");
     }
 
-    @DeleteMapping("{userId}/{productId}")
-    public ResponseEntity<String> removeSingleItemFromCart(@PathVariable("userId") Long userId, @PathVariable("productId") Long productId){
-        cartService.removeCartItemFromCart(userId, productId);
+    @DeleteMapping("/removeFromCart")
+    public ResponseEntity<String> removeSingleItemFromCart(@RequestBody CartRequestDto cartRequestDto){
+        cartService.removeCartItemFromCart(cartRequestDto);
         return ResponseEntity.ok("Item removed from cart");
     }
 
