@@ -9,6 +9,7 @@ import com.hackathon.ehealthcareproject.repository.ProductRepository;
 import com.hackathon.ehealthcareproject.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -34,53 +35,34 @@ public class CartServiceImpl implements CartService {
         UserEntity user = userRepository.findById(cartRequestDto.getUserId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         ProductEntity productEntity = productRepository.findById(cartRequestDto.getProductId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        Cart newCart = new Cart();
-        //find the cart associated with user
-        Cart cart = cartRepository.findByUser(user).orElse(newCart);
-        newCart.setUser(user);
-        user.setCart(newCart);
-
-        List<ProductEntity> listOfProducts = new ArrayList<>();
-        listOfProducts.add(productEntity);
-
-// Assuming ArrayList<ItemEntity> listA and ArrayList<ItemEntity> listB
-
-        for (ProductEntity itemA : listOfProducts ) {
-            boolean found = false;
-            for (ProductEntity itemB : cart.getProductItems()) {
-                if (itemA.getId().equals(itemB.getId())) {
-                    found = true;
-                    break;
-                }
-            }
-            if (found) {
-                // itemA is present in listB
-                cart.setQuantity(cart.getQuantity() + 1);
-            } else {
-                cart.getProductItems().add(itemA);
-                cart.setQuantity(1);
-            }
+        Cart shoppingCart = user.getShoppingCart();
+        if (shoppingCart == null) {
+            shoppingCart = new Cart();
+            shoppingCart.setUser(user);
         }
 
-        cartRepository.save(cart);
+        shoppingCart.getProducts().add(productEntity);
+        shoppingCart.setQuantity(shoppingCart.getQuantity() + 1);
+
+        cartRepository.save(shoppingCart);
     }
 
     @Override
     public void removeCartItemFromCart(CartRequestDto cartRequestDto) {
+        UserEntity user = userRepository.findById(cartRequestDto.getUserId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        ProductEntity productEntity = productRepository.findById(cartRequestDto.getProductId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-
-//        UserEntity user = userRepository.findById(cartRequestDto.getUserId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//        Cart cart = user.getCart();
-//        ProductEntity productEntity = productRepository.findById(cartRequestDto.getProductId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//        cart.getCartItemList().removeIf(cartItem -> cartItem.getProductEntity().getId().equals(productEntity.getId()));
-//        cartRepository.save(cart);
+        Cart cart = user.getShoppingCart();
+        cart.getProducts().removeIf(product -> product.getId().equals(productEntity.getId()));
+        cart.setQuantity(cart.getQuantity() - 1);
+        cartRepository.save(cart);
     }
 
     @Override
     public void clearAllItemsFromCart(Long userId) {
-//        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//        Cart cart = user.getCart();
-//        cart.getCartItemList().clear();
-//        cartRepository.save(cart);
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Cart cart = user.getShoppingCart();
+        cart.getProducts().clear();
+        cartRepository.save(cart);
     }
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -19,7 +20,7 @@ public class ProductEntity {
     private Long id;
     private String productName;
     private String description;
-    private Integer price;
+    private double price;
     private Integer quantity;
     private Boolean isAvailable;
     private String imageUris;
@@ -28,7 +29,6 @@ public class ProductEntity {
     @UpdateTimestamp
     private LocalDate dateUpdated;
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @ManyToMany(mappedBy = "products")
+    private List<Cart> shoppingCart;
 }

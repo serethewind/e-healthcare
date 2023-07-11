@@ -21,7 +21,14 @@ public class Cart {
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
     private long quantity;
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProductEntity> productItems = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "cart_product",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<ProductEntity> products = new ArrayList<>();
 }

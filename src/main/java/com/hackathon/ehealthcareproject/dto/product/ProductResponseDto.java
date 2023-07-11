@@ -13,7 +13,7 @@ public class ProductResponseDto {
     private Long productId;
     private String productName;
     private String description;
-    private Integer price;
+    private double price;
     private Integer quantity;
     private String imageUris;
 }

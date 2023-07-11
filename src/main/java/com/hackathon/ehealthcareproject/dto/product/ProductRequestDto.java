@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class ProductRequestDto {
     private String productName;
     private String description;
-    private Integer price;
+    private double price;
     private Integer quantity;
     private String imageUris;
 }

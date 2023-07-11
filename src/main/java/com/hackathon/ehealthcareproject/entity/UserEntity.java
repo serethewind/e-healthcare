@@ -33,9 +33,8 @@ public class UserEntity {
     private String address;
     private String nextOfKin;
     private LocalDate dateOfBirth;
-    @OneToOne(mappedBy = "user")
-    @JoinColumn(nullable = false)
-    private Cart cart;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart shoppingCart;
     private boolean isAvailable = true;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
