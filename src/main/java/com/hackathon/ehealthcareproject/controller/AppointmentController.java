@@ -42,4 +42,19 @@ public class AppointmentController {
     public ResponseEntity<List<AppointmentResponseDto>> fetchAppointmentByUser(@RequestParam("user") String username){
         return ResponseEntity.ok(appointmentServiceInterface.findAppointmentByUser(username));
     }
+
+    @GetMapping("fulfilled")
+    public ResponseEntity<List<AppointmentResponseDto>> fetchFulfilledAppointments(){
+        return ResponseEntity.ok(appointmentServiceInterface.fetchFulfilledAppointments());
+    }
+
+    @GetMapping("unfulfilled")
+    public ResponseEntity<List<AppointmentResponseDto>> fetchUnFulfilledAppointments(){
+        return ResponseEntity.ok(appointmentServiceInterface.fetchUnfulfilledAppointments());
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<AppointmentResponseDto> updateAppointmentById(@PathVariable("id") Long id){
+        return ResponseEntity.ok(appointmentServiceInterface.updateAppointment(id));
+    }
 }

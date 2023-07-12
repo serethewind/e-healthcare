@@ -22,5 +22,9 @@ public interface AppointmentServiceInterface {
 
     String markAppointmentAsFulfilled(Long id);
 
+    List<AppointmentResponseDto> fetchFulfilledAppointments();
+
+    List<AppointmentResponseDto> fetchUnfulfilledAppointments();
+
 
 }

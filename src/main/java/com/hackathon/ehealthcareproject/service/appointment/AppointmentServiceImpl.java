@@ -43,6 +43,7 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
                 .userEntity(user)
                 .comments(appointmentRequestDto.getMessage())
                 .remarks("Appointment successfully booked")
+                .isFulfilled(false)
                 .doctorEntity(doctorService.randomDoctorOnSpecificDay(appointmentRequestDto.getLocalDate()))
                 .build();
 
@@ -91,7 +92,9 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
 
     @Override
     public List<AppointmentResponseDto> findAppointmentByUser(String username) {
-        return appointmentRepository.findByUserEntity_Username(username).stream().map(appointmentEntity -> AppointmentResponseDto.builder()
+        return appointmentRepository.findByUserEntity_Username(username).stream()
+                .filter(appointmentItem -> appointmentItem.getUserEntity().getUsername().equalsIgnoreCase(username))
+                .map(appointmentEntity -> AppointmentResponseDto.builder()
                 .username(appointmentEntity.getUserEntity().getUsername())
                 .doctorFirstName(appointmentEntity.getDoctorEntity().getFirstName())
                 .doctorLastName(appointmentEntity.getDoctorEntity().getLastName())
@@ -115,5 +118,27 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface{
         appointmentEntity.setFulfilled(true);
         appointmentRepository.save(appointmentEntity);
         return "Appointment fulfilled";
+    }
+
+    @Override
+    public List<AppointmentResponseDto> fetchFulfilledAppointments() {
+       List<AppointmentEntity> appointmentEntities = appointmentRepository.findAll();
+       return appointmentEntities.stream().filter(AppointmentEntity::isFulfilled).map(appointmentEntity -> AppointmentResponseDto.builder()
+               .username(appointmentEntity.getUserEntity().getUsername())
+               .doctorFirstName(appointmentEntity.getDoctorEntity().getFirstName())
+               .doctorLastName(appointmentEntity.getDoctorEntity().getLastName())
+               .response(appointmentEntity.getRemarks())
+               .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppointmentResponseDto> fetchUnfulfilledAppointments() {
+        List<AppointmentEntity> appointmentEntities = appointmentRepository.findAll();
+        return appointmentEntities.stream().filter(appointment -> !appointment.isFulfilled()).map(appointmentEntity -> AppointmentResponseDto.builder()
+                .username(appointmentEntity.getUserEntity().getUsername())
+                .doctorFirstName(appointmentEntity.getDoctorEntity().getFirstName())
+                .doctorLastName(appointmentEntity.getDoctorEntity().getLastName())
+                .response(appointmentEntity.getRemarks())
+                .build()).collect(Collectors.toList());
     }
 }
