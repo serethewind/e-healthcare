@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ProductResponseDto {
-    private Long productId;
+    private long productId;
     private String productName;
     private String description;
     private double price;
-    private Integer quantity;
+    private int quantity;
     private String imageUris;
 }

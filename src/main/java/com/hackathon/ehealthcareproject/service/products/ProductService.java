@@ -9,8 +9,12 @@ import java.util.List;
 public interface ProductService {
     ProductResponseDto createProduct(ProductRequestDto productRequestDto);
     List<ProductResponseDto> viewAllProducts();
-    ProductResponseDto viewSingleProduct(Long id);
-    ProductResponseDto updateSingleProduct(Long id, ProductRequestDto productRequestDto);
+    ProductResponseDto viewSingleProduct(long id);
+    ProductResponseDto updateSingleProduct(long id, ProductRequestDto productRequestDto);
 
-    void deleteProduct(Long id);
+    List<ProductResponseDto> fetchProductsByName(String productName);
+
+    List<ProductResponseDto> fetchAvailableProducts();
+
+    void deleteProduct(long id);
 }

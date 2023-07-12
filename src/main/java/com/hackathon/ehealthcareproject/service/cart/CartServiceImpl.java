@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -52,7 +53,8 @@ public class CartServiceImpl implements CartService {
         ProductEntity productEntity = productRepository.findById(cartRequestDto.getProductId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         Cart cart = user.getShoppingCart();
-        cart.getProducts().removeIf(product -> product.getId().equals(productEntity.getId()));
+        ProductEntity foundProduct = cart.getProducts().stream().filter(product -> product.getId()==productEntity.getId()).toList().iterator().next();
+        cart.getProducts().remove(foundProduct);
         cart.setQuantity(cart.getQuantity() - 1);
         cartRepository.save(cart);
     }

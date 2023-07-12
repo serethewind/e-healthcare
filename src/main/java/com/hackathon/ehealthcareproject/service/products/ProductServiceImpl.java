@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDto viewSingleProduct(Long id) {
+    public ProductResponseDto viewSingleProduct(long id) {
         ProductEntity productEntity = productRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return ProductResponseDto.builder()
                 .productId(productEntity.getId())
@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDto updateSingleProduct(Long id, ProductRequestDto productRequestDto) {
+    public ProductResponseDto updateSingleProduct(long id, ProductRequestDto productRequestDto) {
         ProductEntity productEntity = productRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         productEntity.setProductName(productRequestDto.getProductName());
@@ -89,9 +89,38 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(Long id) {
+    public List<ProductResponseDto> fetchProductsByName(String productName) {
+
+
+        List<ProductEntity> productEntities = productRepository.findAll();
+        return productEntities.stream().filter(product -> product.getProductName().toLowerCase().contains(productName.toLowerCase()))
+                .map(productEntity -> ProductResponseDto.builder()
+                        .productId(productEntity.getId())
+                        .productName(productEntity.getProductName())
+                        .description(productEntity.getDescription())
+                        .price(productEntity.getPrice())
+                        .quantity(productEntity.getQuantity())
+                        .imageUris(productEntity.getImageUris())
+                        .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductResponseDto> fetchAvailableProducts() {
+        List<ProductEntity> productEntities = productRepository.findAll();
+        return productEntities.stream().filter(product -> product.getIsAvailable()).map(productEntity -> ProductResponseDto.builder()
+                .productId(productEntity.getId())
+                .productName(productEntity.getProductName())
+                .description(productEntity.getDescription())
+                .price(productEntity.getPrice())
+                .quantity(productEntity.getQuantity())
+                .imageUris(productEntity.getImageUris())
+                .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteProduct(long id) {
         ProductEntity productEntity = productRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        while (productEntity.getIsAvailable().equals(true) && productEntity.getQuantity() < 0) {
+        while (productEntity.getIsAvailable().equals(true)) {
             productEntity.setIsAvailable(false);
             productRepository.save(productEntity);
         }

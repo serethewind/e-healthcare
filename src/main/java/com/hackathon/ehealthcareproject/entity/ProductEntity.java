@@ -17,11 +17,11 @@ import java.util.List;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     private String productName;
     private String description;
     private double price;
-    private Integer quantity;
+    private int quantity;
     private Boolean isAvailable;
     private String imageUris;
     @CreationTimestamp

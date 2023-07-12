@@ -13,6 +13,6 @@ public class ProductRequestDto {
     private String productName;
     private String description;
     private double price;
-    private Integer quantity;
+    private int quantity;
     private String imageUris;
 }

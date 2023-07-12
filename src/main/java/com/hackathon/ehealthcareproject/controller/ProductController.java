@@ -37,9 +37,21 @@ public class ProductController {
         return new ResponseEntity<>(productService.updateSingleProduct(id, productRequestDto), HttpStatus.OK);
     }
 
+    @GetMapping("search")
+    public ResponseEntity<List<ProductResponseDto>> searchProductsByName(@RequestParam("productName") String productNames){
+        return new ResponseEntity<>(productService.fetchProductsByName(productNames), HttpStatus.OK);
+    }
+
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteProduct(Long id){
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id){
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product successfully deleted");
     }
+
+
+    @GetMapping("available")
+    public ResponseEntity<List<ProductResponseDto>> fetchAvailableProducts(){
+        return ResponseEntity.ok(productService.fetchAvailableProducts());
+    }
 }
+
