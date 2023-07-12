@@ -75,10 +75,55 @@ public class AuthServiceImpl implements AuthServiceInterface {
     }
 
     @Override
+    public RegisterResponseDto registerAdmin(UserRegisterRequestDto userRegisterRequestDto) {
+        //check if username or email exist
+        if (userRepository.existsByUsernameOrEmail(userRegisterRequestDto.getUsername(), userRegisterRequestDto.getEmail())) {
+            throw new BadRequestException("Username or email already exists. Choose another one.");
+        } else {
+
+            RolesEntity roles = rolesRepository.findByName("ADMIN");
+            UserEntity user = UserEntity.builder()
+                    .firstName(userRegisterRequestDto.getFirstName())
+                    .lastName(userRegisterRequestDto.getLastName())
+                    .username(userRegisterRequestDto.getUsername())
+                    .email(userRegisterRequestDto.getEmail())
+                    .password(passwordEncoder.encode(userRegisterRequestDto.getPassword()))
+                    .roles(Collections.singleton(roles))
+                    .build();
+
+            userRepository.save(user);
+
+            return RegisterResponseDto.builder().response("Admin successfully registered").build();
+
+        }
+    }
+    @Override
     public AuthResponseDto loginUser(UserLoginRequestDto userLoginRequestDto) {
         //get authentication object from the
         //get context from security context holder and set the authentication object with the authentication object gotten from the authentication manager.
         //return string login successful
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequestDto.getUsername(), userLoginRequestDto.getPassword()));
+
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtService.generateToken(authentication.getName());
+        UserEntity user = userRepository.findUserByUsername(authentication.getName()).orElseThrow(() -> new UsernameNotFoundException("user not found"));
+
+        revokeValidTokens(user);
+        TokenEntity tokenEntity = TokenEntity.builder()
+                .user(user)
+                .token(token)
+                .tokenType(TokenType.BEARER)
+                .expired(false)
+                .revoked(false)
+                .build();
+        tokenRepository.save(tokenEntity);
+
+        return AuthResponseDto.builder().token(token).userId(user.getId()).username(user.getUsername()).build();
+    }
+
+    @Override
+    public AuthResponseDto loginAdmin(UserLoginRequestDto userLoginRequestDto) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequestDto.getUsername(), userLoginRequestDto.getPassword()));
 
 

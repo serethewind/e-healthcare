@@ -32,6 +32,7 @@ public class DoctorEntity {
     private String phoneNumber;
     private String email;
     private String about;
+    private String imagesUri;
     private boolean isAvailable = true;
 //    private List<String> availableDays = new ArrayList<>();
     private String availableDays;

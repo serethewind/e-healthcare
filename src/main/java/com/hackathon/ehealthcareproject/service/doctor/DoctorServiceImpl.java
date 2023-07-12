@@ -31,6 +31,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .firstName(doctorRequestDto.getFirstName())
                 .lastName(doctorRequestDto.getLastName())
                 .email(doctorRequestDto.getEmail())
+                .imagesUri(doctorRequestDto.getImageUris())
                 .about(doctorRequestDto.getAbout())
                 .gender(doctorRequestDto.getGender())
                 .specialization(doctorRequestDto.getSpecialization())
@@ -43,6 +44,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .firstName(createdDoctor.getFirstName())
                 .lastName(createdDoctor.getLastName())
                 .about(createdDoctor.getAbout())
+                .imageUris(createdDoctor.getImagesUri())
                 .gender(createdDoctor.getGender())
                 .specialization(createdDoctor.getSpecialization())
                 .build();
@@ -54,6 +56,7 @@ public class DoctorServiceImpl implements DoctorService {
         doctorEntity.setFirstName(doctorRequestDto.getFirstName());
         doctorEntity.setLastName(doctorRequestDto.getLastName());
         doctorEntity.setAbout(doctorRequestDto.getAbout());
+        doctorEntity.setImagesUri(doctorRequestDto.getImageUris());
         doctorEntity.setEmail(doctorRequestDto.getEmail());
         doctorEntity.setGender(doctorRequestDto.getGender());
         doctorEntity.setSpecialization(doctorRequestDto.getSpecialization());
@@ -63,6 +66,7 @@ public class DoctorServiceImpl implements DoctorService {
         return DoctorResponseDto.builder()
                 .firstName(doctorEntity.getFirstName())
                 .lastName(doctorEntity.getLastName())
+                .imageUris(doctorEntity.getImagesUri())
                 .about(doctorEntity.getAbout())
                 .specialization(doctorEntity.getSpecialization())
                 .gender(doctorEntity.getGender())
@@ -76,6 +80,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .firstName(foundDoctor.getFirstName())
                 .lastName(foundDoctor.getLastName())
                 .about(foundDoctor.getAbout())
+                .imageUris(foundDoctor.getImagesUri())
                 .gender(foundDoctor.getGender())
                 .specialization(foundDoctor.getSpecialization())
                 .build();
@@ -87,6 +92,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .firstName(doctorEntity.getFirstName())
                 .lastName(doctorEntity.getLastName())
                 .about(doctorEntity.getAbout())
+                .imageUris(doctorEntity.getImagesUri())
                 .specialization(doctorEntity.getSpecialization())
                 .gender(doctorEntity.getGender())
                 .build()).collect(Collectors.toList());
@@ -98,6 +104,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .firstName(doctorEntity.getFirstName())
                 .lastName(doctorEntity.getLastName())
                 .about(doctorEntity.getAbout())
+                .imageUris(doctorEntity.getImagesUri())
                 .specialization(doctorEntity.getSpecialization())
                 .gender(doctorEntity.getGender())
                 .build()).collect(Collectors.toList());

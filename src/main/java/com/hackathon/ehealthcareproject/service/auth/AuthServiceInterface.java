@@ -10,6 +10,10 @@ public interface AuthServiceInterface {
 
     RegisterResponseDto registerUser(UserRegisterRequestDto userRegisterRequestDto);
 
+    RegisterResponseDto registerAdmin(UserRegisterRequestDto userRegisterRequestDto);
+
     AuthResponseDto loginUser(UserLoginRequestDto userLoginRequestDto);
+
+    AuthResponseDto loginAdmin(UserLoginRequestDto userLoginRequestDto);
 
 }

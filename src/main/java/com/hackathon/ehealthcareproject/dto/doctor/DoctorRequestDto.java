@@ -17,6 +17,7 @@ public class DoctorRequestDto {
     private String lastName;
     private String about;
     private String email;
+    private String imageUris;
     private String gender;
     private String specialization;
     private String phoneNumber;

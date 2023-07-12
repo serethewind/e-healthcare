@@ -14,6 +14,7 @@ public class DoctorResponseDto {
     private String firstName;
     private String lastName;
     private String about;
+    private String imageUris;
     private String gender;
     private String specialization;
 }

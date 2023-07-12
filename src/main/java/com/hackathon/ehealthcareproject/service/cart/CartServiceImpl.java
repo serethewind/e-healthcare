@@ -25,9 +25,8 @@ public class CartServiceImpl implements CartService {
     private ProductRepository productRepository;
 
     /**
-     * create cart, fetch product from product repository, transform the product into a cartItem
-     * add this cartItem to the cart.
-     * if the cartItem already exist, then update the count of the cartItem by one
+     * create cart, fetch product from product repository,
+     * add product to cart.
      */
 
     @Override

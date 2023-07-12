@@ -51,6 +51,7 @@ public class SecurityConfig {
                     authorize
                             .requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll()
                             .requestMatchers("/swagger-ui/**").permitAll()
+                            .requestMatchers("/index.html").permitAll()
                             .requestMatchers("api/v1/health/doctor/**").permitAll()
                             .requestMatchers( "/api/health/v1/users/**").permitAll()
                             .requestMatchers("/api/health/v1/products/**").permitAll()

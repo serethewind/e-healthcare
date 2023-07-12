@@ -23,10 +23,19 @@ public class AuthController {
     private AuthServiceImpl authService;
     private LogoutService logoutService;
 
+    @PostMapping("/register-admin")
+    public ResponseEntity<RegisterResponseDto> registerAdmin(@RequestBody UserRegisterRequestDto userRegisterRequestDto){
+        return new ResponseEntity<>(authService.registerAdmin(userRegisterRequestDto), HttpStatus.CREATED);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<RegisterResponseDto> register(@RequestBody UserRegisterRequestDto userRegisterRequestDto){
         return new ResponseEntity<>(authService.registerUser(userRegisterRequestDto), HttpStatus.CREATED);
-//        return ResponseEntity.ok(authService.registerUser(userRegisterRequestDto));
+    }
+
+    @PostMapping("/login-admin")
+    public ResponseEntity<AuthResponseDto> loginAdmin(@RequestBody UserLoginRequestDto userLoginRequestDto){
+        return new ResponseEntity<>(authService.loginAdmin(userLoginRequestDto), HttpStatus.OK);
     }
 
     @PostMapping("/login")
@@ -35,7 +44,7 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<LogoutResponseDto> logut(HttpServletRequest request,
+    public ResponseEntity<LogoutResponseDto> logout(HttpServletRequest request,
                                                    HttpServletResponse response,
                                                    Authentication authentication){
         logoutService.logout(request, response, authentication);
