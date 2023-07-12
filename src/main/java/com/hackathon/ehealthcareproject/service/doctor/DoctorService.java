@@ -14,6 +14,8 @@ public interface DoctorService {
 
     DoctorResponseDto viewSingleDoctor(Long id);
 
+    String deleteDoctor(long id);
+
     List<DoctorResponseDto> viewAllDoctors();
 
     List<DoctorResponseDto> viewAllAvailableDoctors();

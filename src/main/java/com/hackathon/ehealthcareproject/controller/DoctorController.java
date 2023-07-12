@@ -25,4 +25,24 @@ public class DoctorController {
     public ResponseEntity<List<DoctorResponseDto>> fetchAllDoctors(){
         return new ResponseEntity<>(doctorService.viewAllDoctors(), HttpStatus.OK);
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<DoctorResponseDto> fetchSingleDoctor(@PathVariable("id") long id){
+        return new ResponseEntity<>(doctorService.viewSingleDoctor(id), HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<DoctorResponseDto> updateSingleDoctor(@PathVariable("id") long id, @RequestBody DoctorRequestDto doctorRequestDto){
+        return ResponseEntity.ok(doctorService.updateDoctor(id, doctorRequestDto));
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteSingleDoctor(@PathVariable("id") long id){
+        return ResponseEntity.ok(doctorService.deleteDoctor(id));
+    }
+
+    @GetMapping("available")
+    public ResponseEntity<List<DoctorResponseDto>> fetchAvailableDoctors(){
+        return ResponseEntity.ok(doctorService.viewAllAvailableDoctors());
+    }
 }

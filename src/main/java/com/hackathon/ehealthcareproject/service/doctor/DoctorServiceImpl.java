@@ -34,6 +34,7 @@ public class DoctorServiceImpl implements DoctorService {
                 .imagesUri(doctorRequestDto.getImageUris())
                 .about(doctorRequestDto.getAbout())
                 .gender(doctorRequestDto.getGender())
+                .isAvailable(true)
                 .specialization(doctorRequestDto.getSpecialization())
                 .phoneNumber(doctorRequestDto.getPhoneNumber())
                 .availableDays(AppointmentLogic.assignDays())
@@ -77,6 +78,7 @@ public class DoctorServiceImpl implements DoctorService {
     public DoctorResponseDto viewSingleDoctor(Long id) {
         DoctorEntity foundDoctor = doctorRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return DoctorResponseDto.builder()
+                .id(foundDoctor.getId())
                 .firstName(foundDoctor.getFirstName())
                 .lastName(foundDoctor.getLastName())
                 .about(foundDoctor.getAbout())
@@ -87,8 +89,17 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public String deleteDoctor(long id) {
+        DoctorEntity foundDoctor = doctorRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        foundDoctor.setAvailable(false);
+        doctorRepository.save(foundDoctor);
+        return "Doctor successfully tagged unavailable";
+    }
+
+    @Override
     public List<DoctorResponseDto> viewAllDoctors() {
         return doctorRepository.findAll().stream().map(doctorEntity -> DoctorResponseDto.builder()
+                .id(doctorEntity.getId())
                 .firstName(doctorEntity.getFirstName())
                 .lastName(doctorEntity.getLastName())
                 .about(doctorEntity.getAbout())
@@ -101,6 +112,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public List<DoctorResponseDto> viewAllAvailableDoctors() {
         return doctorRepository.findAll().stream().filter(DoctorEntity::isAvailable).map(doctorEntity -> DoctorResponseDto.builder()
+                .id(doctorEntity.getId())
                 .firstName(doctorEntity.getFirstName())
                 .lastName(doctorEntity.getLastName())
                 .about(doctorEntity.getAbout())
