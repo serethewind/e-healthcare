@@ -20,5 +20,6 @@ public class UserUpdateRequestDto {
     private String gender;
     private String address;
     private String nextOfKin;
+    private String phoneNumber;
     private LocalDate dateOfBirth;
 }

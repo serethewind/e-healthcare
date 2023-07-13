@@ -10,6 +10,7 @@ import com.hackathon.ehealthcareproject.exceptions.ResourceNotFoundException;
 import com.hackathon.ehealthcareproject.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +57,15 @@ public class UsersServiceImpl implements UsersServiceInterface {
         userEntity.setAvailable(false);
         userRepository.save(userEntity);
         return "User with " + id + " successfully deleted.";
+    }
+
+    @Override
+    public List<UserResponseDto> findUserByGender(String gender) {
+        List<UserEntity> userEntities = userRepository.findAll();
+        return userEntities.stream().filter((user) -> user.getGender().equalsIgnoreCase(gender)).map( userEntity -> UserResponseDto.builder()
+                .firstName(userEntity.getFirstName())
+                .lastName(userEntity.getLastName())
+                .username(userEntity.getUsername())
+                .build() ).collect(Collectors.toList());
     }
 }

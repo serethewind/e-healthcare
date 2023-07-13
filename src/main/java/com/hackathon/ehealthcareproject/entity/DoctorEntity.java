@@ -4,21 +4,21 @@ import com.hackathon.ehealthcareproject.entity.AppointmentEntity;
 import com.hackathon.ehealthcareproject.entity.DepartmentEntity;
 import com.hackathon.ehealthcareproject.entity.PrescriptionEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "doctor_database")
 public class DoctorEntity {
@@ -30,7 +30,12 @@ public class DoctorEntity {
     private String gender;
     private String specialization;
     private String phoneNumber;
+    private String email;
+    private String about;
+    private String imagesUri;
     private boolean isAvailable = true;
+//    private List<String> availableDays = new ArrayList<>();
+    private String availableDays;
     @CreationTimestamp
     private LocalDate dateCreated;
     @UpdateTimestamp

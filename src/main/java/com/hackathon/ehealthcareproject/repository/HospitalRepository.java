@@ -1,4 +1,7 @@
 package com.hackathon.ehealthcareproject.repository;
 
-public class HospitalRepository {
+import com.hackathon.ehealthcareproject.entity.HospitalEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface HospitalRepository extends JpaRepository<HospitalEntity, Long> {
 }

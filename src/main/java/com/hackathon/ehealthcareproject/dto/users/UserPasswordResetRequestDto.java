@@ -1,16 +1,15 @@
-package com.hackathon.ehealthcareproject.dto;
+package com.hackathon.ehealthcareproject.dto.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class AuthResponseDto {
-    private String token;
-    private Long userId;
+@Data
+public class UserPasswordResetRequestDto {
     private String username;
+    private String password;
 }

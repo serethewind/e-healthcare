@@ -1,4 +1,4 @@
-package com.hackathon.ehealthcareproject.dto;
+package com.hackathon.ehealthcareproject.dto.cart;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthResponseDto {
-    private String token;
-    private Long userId;
-    private String username;
+public class CartRequestDto {
+    private long userId;
+    private long productId;
 }

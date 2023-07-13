@@ -1,10 +1,7 @@
 package com.hackathon.ehealthcareproject.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -12,6 +9,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "appointment_database")
 public class AppointmentEntity {
@@ -19,6 +17,9 @@ public class AppointmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private LocalDate appointmentDate;
+    private String comments;
+    private String remarks;
+    private boolean isFulfilled = false;
     @ManyToOne
     @JoinColumn(name = "user_entity_id", referencedColumnName = "id")
     private UserEntity userEntity;
