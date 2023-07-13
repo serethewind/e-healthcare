@@ -19,30 +19,30 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/health/v1/users")
 @AllArgsConstructor
-//@OpenAPIDefinition(
-//        info = @Info(
-//                title = "Skincare e-health solutions",
-//                description = "SkinLikeMilk REST APIs Documentation",
-//                version = "v1.0",
-//                contact = @Contact(
-//                        name = "Noah",
-//                        email = "osasereu@gmail.com",
-//                        url = "https://github.com/serethewind"
-//                ),
-//                license = @License(
-//                        name = "Apache 2.0",
-//                        url = "https://github.com/serethewind"
-//                )
-//        ),
-//        externalDocs = @ExternalDocumentation(
-//                description = "Skin care Rest API Documentation",
-//                url = "https://github.com/serethewind"
-//        )
-//)
-//@Tag(
-//        name = "User Account Service REST APIs/Endpoint",
-//        description = "Endpoints for manipulating User account"
-//)
+@OpenAPIDefinition(
+        info = @Info(
+                title = "Skincare e-health solutions",
+                description = "SkinLikeMilk REST APIs Documentation",
+                version = "v1.0",
+                contact = @Contact(
+                        name = "Noah",
+                        email = "osasereu@gmail.com",
+                        url = "https://github.com/serethewind"
+                ),
+                license = @License(
+                        name = "Apache 2.0",
+                        url = "https://github.com/serethewind"
+                )
+        ),
+        externalDocs = @ExternalDocumentation(
+                description = "Skin care Rest API Documentation",
+                url = "https://github.com/serethewind"
+        )
+)
+@Tag(
+        name = "User Account Service REST APIs/Endpoint",
+        description = "Endpoints for manipulating User account"
+)
 public class UsersController {
 
     private UsersServiceImpl usersService;

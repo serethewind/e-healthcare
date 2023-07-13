@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests((authorize) -> {
                     authorize
-                            .requestMatchers(HttpMethod.POST, "/api/health/v1/auth/**").permitAll()
+                            .requestMatchers( "/api/health/v1/auth/**").permitAll()
                             .requestMatchers("/swagger-ui/**").permitAll()
                             .requestMatchers("/index.html").permitAll()
                             .requestMatchers("api/v1/health/doctor/**").permitAll()

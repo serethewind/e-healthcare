@@ -2,9 +2,7 @@ package com.hackathon.ehealthcareproject.controller;
 
 import com.hackathon.ehealthcareproject.dto.AuthResponseDto;
 import com.hackathon.ehealthcareproject.dto.RegisterResponseDto;
-import com.hackathon.ehealthcareproject.dto.users.LogoutResponseDto;
-import com.hackathon.ehealthcareproject.dto.users.UserLoginRequestDto;
-import com.hackathon.ehealthcareproject.dto.users.UserRegisterRequestDto;
+import com.hackathon.ehealthcareproject.dto.users.*;
 import com.hackathon.ehealthcareproject.securityConfig.LogoutService;
 import com.hackathon.ehealthcareproject.service.auth.AuthServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,6 +48,11 @@ public class AuthController {
         logoutService.logout(request, response, authentication);
         LogoutResponseDto logoutResponseDto = LogoutResponseDto.builder().response("Logout successful").build();
         return ResponseEntity.ok(logoutResponseDto);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<UserPasswordResponseDto> resetPassword(@RequestBody UserPasswordResetRequestDto userPasswordResetRequestDto){
+        return ResponseEntity.ok(authService.resetPassword(userPasswordResetRequestDto));
     }
 
 }

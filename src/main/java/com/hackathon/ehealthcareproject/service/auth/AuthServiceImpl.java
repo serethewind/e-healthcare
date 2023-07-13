@@ -4,6 +4,8 @@ import com.hackathon.ehealthcareproject.dto.AuthResponseDto;
 import com.hackathon.ehealthcareproject.dto.RegisterResponseDto;
 import com.hackathon.ehealthcareproject.dto.email.EmailDetails;
 import com.hackathon.ehealthcareproject.dto.users.UserLoginRequestDto;
+import com.hackathon.ehealthcareproject.dto.users.UserPasswordResetRequestDto;
+import com.hackathon.ehealthcareproject.dto.users.UserPasswordResponseDto;
 import com.hackathon.ehealthcareproject.dto.users.UserRegisterRequestDto;
 import com.hackathon.ehealthcareproject.entity.RolesEntity;
 import com.hackathon.ehealthcareproject.entity.TokenEntity;
@@ -16,6 +18,7 @@ import com.hackathon.ehealthcareproject.repository.UserRepository;
 import com.hackathon.ehealthcareproject.securityConfig.JWTService;
 import com.hackathon.ehealthcareproject.service.emails.EmailServiceInterface;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,8 +26,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -97,6 +102,7 @@ public class AuthServiceImpl implements AuthServiceInterface {
 
         }
     }
+
     @Override
     public AuthResponseDto loginUser(UserLoginRequestDto userLoginRequestDto) {
         //get authentication object from the
@@ -142,6 +148,18 @@ public class AuthServiceImpl implements AuthServiceInterface {
         tokenRepository.save(tokenEntity);
 
         return AuthResponseDto.builder().token(token).userId(user.getId()).username(user.getUsername()).build();
+    }
+
+    @Override
+    public UserPasswordResponseDto resetPassword(UserPasswordResetRequestDto userPasswordResetRequestDto) {
+
+        UserEntity user = userRepository.findUserByUsername(userPasswordResetRequestDto.getUsername()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        user.setPassword(passwordEncoder.encode(userPasswordResetRequestDto.getPassword()));
+        userRepository.save(user);
+        return UserPasswordResponseDto.builder()
+                .username(user.getUsername())
+                .response("Password Changed Successfully")
+                .build();
     }
 
     private void revokeValidTokens(UserEntity users) {
