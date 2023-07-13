@@ -24,7 +24,7 @@ public class UserEntity {
     private long id;
     @Column(nullable = false)
     private String firstName;
-    @Column(nullable = false)
+
     private String otherName;
     @Column(nullable = false)
     private String lastName;
@@ -34,6 +34,7 @@ public class UserEntity {
     @Email
     private String email;
     private String gender;
+    @Column(nullable = false)
     private String password;
     private String imageUri;
     private String phoneNumber;
