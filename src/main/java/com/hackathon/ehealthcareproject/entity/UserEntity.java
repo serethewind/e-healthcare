@@ -1,6 +1,7 @@
 package com.hackathon.ehealthcareproject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,10 +22,16 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String otherName;
+    @Column(nullable = false)
     private String lastName;
+    @Column(nullable = false, unique = true)
     private String username;
+    @Column(nullable = false, unique = true)
+    @Email
     private String email;
     private String gender;
     private String password;
